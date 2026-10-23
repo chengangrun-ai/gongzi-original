@@ -1,0 +1,84 @@
+{
+  "id": "nordic_tribal",
+  "name": "北欧部落",
+  "desc": "黑白红三色、编结与折线，硬朗对称",
+  "tags": [
+    "北欧",
+    "部落",
+    "编结",
+    "黑白红",
+    "对称"
+  ],
+  "palette": {
+    "white": "#FEFFFF",
+    "light": "#E3E1EE",
+    "mid": "#48464E",
+    "dark": "#000000",
+    "line": "#000000",
+    "accent": "#E7002F"
+  },
+  "color_set": "mard72",
+  "bg": "paper",
+  "line_width": 1.5,
+  "fill": "mid",
+  "detail": "white",
+  "shade1": "dark",
+  "shade2": "line",
+  "fill_texture": "weave",
+  "face_texture": "weave",
+  "texture_pool": [
+    "weave",
+    "hatch",
+    "solid",
+    "dots"
+  ],
+  "formats": {
+    "S": 0.4,
+    "M": 0.25,
+    "V": 0.35
+  },
+  "templates": [
+    "badge",
+    "frame",
+    "medallion",
+    "banner",
+    "fullbleed",
+    "arch",
+    "corner",
+    "emblem"
+  ],
+  "subjects": [
+    "triquetra",
+    "deer",
+    "wolf",
+    "bird",
+    "snake",
+    "dragon",
+    "compass",
+    "spiral",
+    "mandala",
+    "skull",
+    "anchor",
+    "tree",
+    "bridge",
+    "gate"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.04
+  },
+  "accent_rate": 0.5,
+  "splatter": 0,
+  "sat_target": 0.15,
+  "contrast_target": 0.85,
+  "edge_target": 0.25,
+  "ink_target": 0.3,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  },
+  "ground": "dark"
+}

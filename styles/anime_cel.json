@@ -1,0 +1,77 @@
+{
+  "id": "anime_cel",
+  "name": "日系赛璐璐",
+  "desc": "粗描边、平涂赛璐璐上色，做原创角色/头像用（不复刻任何已有角色）",
+  "tags": [
+    "日系",
+    "赛璐璐",
+    "角色",
+    "平涂",
+    "粗线"
+  ],
+  "palette": {
+    "white": "#FEFFFF",
+    "light": "#FFDBE9",
+    "mid": "#FFC365",
+    "dark": "#3677D2",
+    "line": "#753832",
+    "accent": "#E7002F"
+  },
+  "color_set": "mard72",
+  "bg": "paper",
+  "line_width": 1.6,
+  "fill": "light",
+  "detail": "line",
+  "shade1": "dark",
+  "shade2": "line",
+  "fill_texture": "solid",
+  "face_texture": "solid",
+  "texture_pool": [
+    "solid"
+  ],
+  "formats": {
+    "S": 0.6,
+    "M": 0.3,
+    "V": 0.1
+  },
+  "templates": [
+    "badge",
+    "frame",
+    "card",
+    "corner",
+    "banner",
+    "sticker",
+    "radial",
+    "emblem",
+    "split"
+  ],
+  "subjects": [
+    "chibi",
+    "bust",
+    "cat_face",
+    "star_buddy",
+    "heart",
+    "flower",
+    "cloud",
+    "sakura",
+    "dog",
+    "panda"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.06
+  },
+  "accent_rate": 0.7,
+  "splatter": 0,
+  "sat_target": 0.4,
+  "contrast_target": 0.55,
+  "edge_target": 0.18,
+  "ink_target": 0.2,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  }
+}

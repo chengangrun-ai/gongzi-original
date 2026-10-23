@@ -1,0 +1,1289 @@
+[
+  {
+    "id": "001",
+    "title": "防止风格默认值和调用方配置串改",
+    "problem": "normalize 只做浅拷贝，修改一套作品的画幅、标签或难度会污染后续作品及原始输入。",
+    "change": "对默认配置和用户配置深拷贝，输出中的嵌套对象独立。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_001_normalize_isolates_nested_defaults_and_input；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "002",
+    "title": "让缺失颜色角色落到实际可用颜色",
+    "problem": "仅有描边色等少色风格仍会把填充退到不存在的 dark/mid，纹理代码检查角色时可能漏画。",
+    "change": "按角色语义顺序寻找当前配色中真实存在的替代角色，保留 paper。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_002_missing_color_roles_resolve_to_available_roles；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "003",
+    "title": "在绘制前挡住不安全数值配置",
+    "problem": "非有限线宽、越界概率、小数飞点数量和零难度除数会在绘制或统计中产生错误结果。",
+    "change": "集中校验线宽、比例、清理数量、难度和配色权重，明确指出无效字段。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_003_rejects_unsafe_numeric_style_settings；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "004",
+    "title": "拒绝失效的画幅配比",
+    "problem": "未知画幅、负数、无穷大或全零配比被忽略或回退，小样尺寸与用户指定不符。",
+    "change": "限定 S/M/V、有限非负权重且至少一个正值；分配前缩放权重避免有限大数求和溢出。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_004_rejects_invalid_format_distributions；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "005",
+    "title": "防止纹理名称拼错后悄悄变成平涂",
+    "problem": "错误纹理或把纹理池写成单个字符串会被误当作可用设置，成品与配置不符。",
+    "change": "校验主体、脸部、翅膀及纹理池中的名称，要求纹理池为非空列表并去重。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_005_rejects_unknown_textures_including_pool；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "006",
+    "title": "检查风格配色结构和角色拼写",
+    "problem": "拼错 accent 等角色名时颜色会被忽略，非对象配色也缺少清楚提示。",
+    "change": "要求 palette 为映射，拒绝未知角色并在配置阶段校验角色颜色。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_006_palette_schema_reports_misspelled_roles；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "007",
+    "title": "明确校验背景模式",
+    "problem": "把 fill 写成 filled 时程序按纸底继续，用户指定的满底会消失。",
+    "change": "背景只接受 paper/fill，并在满底缺少背景色时给出字段错误。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_007_rejects_unknown_background_mode；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "008",
+    "title": "从参考统计生成风格时保留原始资料",
+    "problem": "from_dna 直接往调用方的 palette_roles 中添加 line，生成结果中的题材也共享原列表。",
+    "change": "转换前复制 DNA 和嵌套数据，再补足描边色；结果可独立修改。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_008_dna_conversion_does_not_modify_source；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "009",
+    "title": "阻止风格ID冲突覆盖",
+    "problem": "两个风格文件使用相同或仅大小写不同的ID时，后读入的文件静默覆盖前一个。",
+    "change": "加载时检测不区分大小写的ID冲突，报出冲突ID与文件；同时支持常见UTF-8 BOM文件。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_009_style_registry_rejects_duplicate_ids；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "010",
+    "title": "校验生成款数",
+    "problem": "零、负数、布尔值会生成空批次或意外数量，小数在numpy内部才报错。",
+    "change": "plan 入口只接受正整数款数，错误发生在任何方案生成之前。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_010_plan_requires_a_positive_integer_count；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "011",
+    "title": "完整核对用户选择的题材和构图",
+    "problem": "混合输入有效名称与错误名称时，错误项被静默剔除；显式空列表被替换成默认值。",
+    "change": "题材和构图逐项核对，列出未知项，并区分省略参数与明确空列表。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_011_plan_reports_all_unknown_selections；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "012",
+    "title": "支持直接传入单项名称",
+    "problem": "subjects=\"cat\"、templates=\"badge\"会被拆成字母，导致已存在的选项无法使用。",
+    "change": "将单个名称作为一项解析，并支持用逗号分隔的名称。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_012_single_selection_strings_are_not_split_into_letters；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "013",
+    "title": "消除重复选择造成的抽样偏斜",
+    "problem": "重复题材或构图会占用抽样池，导致一轮题材重复、组合更少；内置botanical也有重复flower。",
+    "change": "保持首次出现的顺序去重，使重复配置与去重配置得到相同固定种子方案。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_013_duplicate_options_do_not_bias_or_repeat_subjects；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "014",
+    "title": "大批量方案每轮都充分利用组合",
+    "problem": "第一轮组合用完后不清空已用记录，后续改为随机选择，第二轮6个名额可能只有4种组合。",
+    "change": "用完题材×构图的整轮组合后重置记录，后续每轮仍用满全部组合再重复。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_014_each_combination_cycle_is_complete_before_repeating；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "015",
+    "title": "提前检查作品编号完整性和冲突",
+    "problem": "编号数量不足会中途IndexError，重复或空编号会造成作品难以区分或覆盖文件。",
+    "change": "明确给出ids时要求与款数等长、编号非空、忽略大小写后唯一。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_015_explicit_ids_must_be_complete_unique_and_nonempty；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "016",
+    "title": "保证大整数种子准确复现",
+    "problem": "numpy int64种子乘1000时溢出成负数，布尔值又会被当成合法种子。",
+    "change": "种子入口校验非负整数，计算派生种子前转为Python整数，避免64位乘法溢出。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_016_seed_validation_and_numpy_integer_seed_are_stable；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "017",
+    "title": "绘制方案在入口一次校验",
+    "problem": "错误题材、构图、尺寸或种子直到深层绘制才报KeyError等异常，定位困难。",
+    "change": "compose 在分配画布前校验方案类型、必需字段、可用名称和种子。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_017_compose_rejects_invalid_specs_before_drawing；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "018",
+    "title": "保存独立的作品生成凭据",
+    "problem": "compose 返回原spec对象，之后用户改种子或标签，会让成品凭据与已生成网格不一致。",
+    "change": "开始绘制时保存方案的深拷贝，并以该副本绘制和返回。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_018_composition_provenance_is_an_independent_snapshot；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "019",
+    "title": "可靠解析常用十六进制颜色",
+    "problem": "标准#RGB短写和两侧空格无法解析，8位等错误色值反而被截断成另一种颜色。",
+    "change": "严格接收三位或六位颜色、扩展短写，拒绝额外字节和重复井号。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_019_hex_colors_accept_standard_shorthand_and_reject_extra_bytes；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "020",
+    "title": "保持用户限定的备豆色卡范围",
+    "problem": "nearest 的空allowed列表被替换成全色卡，可能选出用户没有的豆色；h7等简写不能用于候选列表。",
+    "change": "仅None表示全部色卡，空集合明确报错，候选色号先规范化、去重和核对。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_020_nearest_preserves_restricted_color_set；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "021",
+    "title": "防止无效RGB参与色差计算",
+    "problem": "NaN、负值、超255及错误三通道形状被送入Lab计算，产生无效或拼接错误的颜色。",
+    "change": "转换前验证最后一维为三个通道，所有值有限并处于0–255。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_021_rgb_conversion_rejects_nonfinite_and_invalid_shape；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "022",
+    "title": "隔离公开色卡与内部缓存",
+    "problem": "card 直接返回全局缓存，调用方改一个色号RGB后，后续所有作品都会使用被改过的错误实物颜色。",
+    "change": "公开card返回独立记录快照，内部查询使用私有缓存。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_022_color_card_callers_cannot_pollute_cached_colors；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "023",
+    "title": "统一实际色号并检查配色索引",
+    "problem": "直接构造Palette使用h7时输出图例仍是h7，负索引会指到末尾颜色，布尔值会当作索引。",
+    "change": "构造时规范化并核对真实色号；索引查询拒绝布尔值和越界整数，所有颜色访问复用检查。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_023_palette_access_uses_canonical_codes_and_valid_indices；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "024",
+    "title": "完整保留读回图纸中的所有颜色",
+    "problem": "from_codes仅把前8种颜色绑定给固定角色，超过8种颜色被静默丢失。",
+    "change": "为额外颜色生成稳定的color_009等角色，保留全部真实色号，并按亮度和色号稳定排序。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_024_imported_palette_keeps_more_than_eight_real_colors；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "025",
+    "title": "修复不同颜色角色抢用同一豆色",
+    "problem": "重复颜色检测把色号与角色名字典键比较，永远发现不了冲突，多角色可能全部变成同一颗豆。",
+    "change": "使用真实色号集合检测冲突，从尚未使用的允许色号中选次优，并同步更新色差报告。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_025_distinct_color_roles_receive_distinct_real_beads；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "026",
+    "title": "拒绝零尺寸或缩放后没有格子的画布",
+    "problem": "零宽高、零缩放和过小尺寸能进入绘制，产生空网格或后续异常。",
+    "change": "构造画布时核查有限正数，并确认缩放后至少一行一列。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_026_canvas_rejects_unusable_dimensions -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "027",
+    "title": "负线宽与负半径不再画出一颗豆",
+    "problem": "负线宽会进入单颗线分支，负半径也会直接落豆，错误参数生成了可见成品。",
+    "change": "记录图形前校验线宽、半径和线帽；零宽或零半径跳过绘制。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_027_invalid_stroke_and_dot_sizes_are_rejected -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "028",
+    "title": "统一拦截非法采样数",
+    "problem": "零采样会输出全空图、触发除零或空切片警告。",
+    "change": "网格、遮罩和原画入口统一要求正整数采样数；原画格像素也提前核查。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_028_sampling_parameters_are_positive_integers -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "029",
+    "title": "单颗落格不侵占右邻和下邻",
+    "problem": "单颗绘制右下边界多加一像素，S=1时一颗豆变成四颗；画布外负坐标还可能渗入边缘。",
+    "change": "落格使用左闭右开的精确格边界，并在绘制前忽略画布外格子。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_029_snapped_cells_use_half_open_bounds -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "030",
+    "title": "直接点名的格子出现在高清原画里",
+    "problem": "pixels生成了网格中的豆，高清原画重放时却跳过整个pixel类型。",
+    "change": "原画分支按网格格心绘制小圆点，正确处理缩放、裁剪和越界格。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_030_explicit_pixels_appear_in_original_art -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "031",
+    "title": "同一画布重复渲染保持点刺和渐变一致",
+    "problem": "每次grid都会再次消耗随机数，重新导出会改变单颗豆位置。",
+    "change": "内置随机效果首次渲染保存随机顺序和噪声，后续原样重放；首次随机序列保持原有语义。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_031_random_effects_replay_identically -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "032",
+    "title": "后续修改输入数组不再偷偷改作品",
+    "problem": "点刺和渐变闭包保留调用者的遮罩、密度或亮度数组引用，外部修改会改变待导出的图。",
+    "change": "登记效果时复制遮罩和广播后的场，并固定颜色层列表。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_032_effect_inputs_are_snapshots -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "033",
+    "title": "点刺与渐变错误在登记时明确报出",
+    "problem": "错误遮罩尺寸、超范围密度、空颜色层和NaN直到出图时才崩溃，或静默当作有效效果。",
+    "change": "效果入口检查完整网格形状、0到1的有限数值、非空颜色层和非负抖动强度。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_033_effect_inputs_fail_before_render -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "034",
+    "title": "密度场不再掩盖无定义的方向或半径",
+    "problem": "线性轴两点重合和径向外半径小于内半径被极小分母吞掉，输出无意义的密度。",
+    "change": "密度辅助函数验证端点、半径先后关系、密度范围和正gamma，去掉掩盖错误的分母钳制。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_034_density_fields_reject_undefined_axes -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "035",
+    "title": "坏坐标不再被悄悄重排成图形",
+    "problem": "一行四列被reshape当成两个点，NaN和无穷坐标继续流入Pillow。",
+    "change": "点集入口检查每行坐标对和有限数值，保留合法空点集的二维形状。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_035_points_reject_nonfinite_and_malformed_rows -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "036",
+    "title": "折线重采样保住原始拐角",
+    "problem": "按整条线等距采样可能跨过折点，后续连线把直角截成斜边。",
+    "change": "逐段重采样并保留每个原始端点，确保采样间距不超过指定步长。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_036_resampling_keeps_corners -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "037",
+    "title": "负几何采样间距不再静默降成粗线",
+    "problem": "折线、样条、圆弧和螺旋遇到负间距会返回极少点，用户图形悄悄失真。",
+    "change": "四类采样入口统一要求有限正间距，并检查样条alpha与圆弧/螺旋半径。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_037_geometry_rejects_negative_sampling_steps -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "038",
+    "title": "闭合样条真正回到起点",
+    "problem": "闭合样条采完最后一段后附加了最后控制点，造成末尾折返而非闭合。",
+    "change": "闭合样条末端改用首控制点，消除额外折返。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_038_closed_spline_finishes_at_start -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "039",
+    "title": "渐变线宽按实际距离变化",
+    "problem": "文档承诺按弧长插值，但实现按点序号分配宽度；控制点密集处会异常增粗。",
+    "change": "宽度曲线和函数的u改为累计路程比例，仍保留逐点明确给宽度的语义。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_039_widths_follow_distance_not_vertex_number -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "040",
+    "title": "重复点与单点不再破坏法线",
+    "problem": "单点触发numpy梯度异常；连续重复点产生零法线，使粗线和身体局部塌陷。",
+    "change": "单点返回零切向量，重复点先合并计算再映射回原位置。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_040_normals_handle_single_and_repeated_vertices -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "041",
+    "title": "单点和重复点凸包保持有效形状",
+    "problem": "单个唯一点的凸包被删除或重复返回；空凸包变成一维数组。",
+    "change": "先去除重复坐标，小于等于两个唯一点直接返回，保持(N,2)形状；同时移除二维cross弃用警告。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_041_hull_preserves_single_unique_point -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "042",
+    "title": "沿脊线身体的采样数参数生效",
+    "problem": "body_along的n无论给多少都被忽略，无法控制轮廓点数和资源消耗。",
+    "change": "指定n时按累计长度精确插值n个脊线点，并校验n至少为2。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_042_body_sampling_count_is_honored -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "043",
+    "title": "整数遮罩正确填洞且支持空遮罩",
+    "problem": "对uint8的0/1遮罩直接按位取反，把整个背景都变成非零，洞不能填；空遮罩越界。",
+    "change": "先核查并转换布尔遮罩；空遮罩直接返回；按标签查表一次性填符合面积限制的洞。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_043_hole_filling_accepts_binary_integer_masks -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "044",
+    "title": "工艺坏参数不再意外铺满画布或擦掉作品",
+    "problem": "SciPy把负迭代数当作反复运算；负面积、NaN距离和纸色托底也被接受。",
+    "change": "整理入口明确检查非负迭代次数、面积和桥距，并要求有效非零托底色。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_044_finalize_rejects_destructive_parameters -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "045",
+    "title": "相邻碎片可通过接力桥完整保留",
+    "problem": "原实现只量到原始主体的距离，远处碎片即使能经邻近碎片相连也会被提前删除。",
+    "change": "每接最近的合格块就重新计算主体与距离，直到无可桥接块；移除任意40轮上限。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_045_bridge_can_keep_a_chain_of_nearby_islands -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "046",
+    "title": "空作品显示零工时和零用板",
+    "problem": "全空网格仍显示一块底板、入门两星和1到2小时，误导备料和工时估计。",
+    "change": "空作品的用板、星数和时间归零，明确标记空作品等级。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_046_empty_pattern_has_no_work_estimate -v；红：原版空52×52网格boards实际1、期望0，测试失败；绿：同一断言及本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "047",
+    "title": "网格预览查表提速",
+    "problem": "原预览每个色号都展开一张完整大遮罩并扫描全部像素，色数越多越慢，还重复分配大数组。",
+    "change": "先将每格颜色索引一次查成RGB，再沿两个方向放大，保留网格线逐像素结果；同色孤立豆统计同时用相邻数组比较替代逐颗Python循环。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_047_preview_is_pixel_identical_with_less_work -v；同一156×156网格、B=8、7角色，五次均值：旧预览0.085944秒，新预览0.011896秒，7.22倍；singles旧0.060620秒，新0.000060秒；两者与原版逐像素/数值一致。红：回退旧预览路径后，相对性能测试实测0.063498秒未低于旧参考0.063280秒的70%，测试失败；恢复查表后通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "048",
+    "title": "难度系数不能产生反向评分或除零",
+    "problem": "负分母会让大作品更简单，零分母直接崩溃，NaN和无穷系数也会进入评分。",
+    "change": "难度入口要求分母有限正值、加分系数有限非负值。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_048_difficulty_parameters_cannot_invert_rating -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "049",
+    "title": "渐变真正覆盖图形并随缩放保持位置",
+    "problem": "默认渐变以画布原点的一格半径计算，大部分图形全变暗；lo/hi无效，注册纹理还混用网格与设计坐标。",
+    "change": "默认亮度按图形包围盒计算并应用lo/hi；渐变场统一换回设计坐标，修复放大后渐变偏移。",
+    "files": [
+      "pindou/brushes.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_049_default_gradient_spans_the_shape_at_any_zoom -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "050",
+    "title": "纹样零间距不再让程序卡死",
+    "problem": "点阵、棋盘、鳞片等while循环在零或负周期时永不前进；负排线间距静默漏画。",
+    "change": "排线、点阵、鱼鳞、青海波、波浪、棋盘和半调统一要求有限正周期。",
+    "files": [
+      "pindou/brushes.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_050_brush_spacing_fails_instead_of_looping -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。",
+    "commit": "680e523",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "051",
+    "title": "按照片实际显示方向分析和核查",
+    "problem": "忽略EXIF旋转会把竖图当横图，并使相同画面产生不同核查结果。",
+    "change": "图片统一先应用EXIF方向；风格分析与参考图缩格共用同一读取逻辑。",
+    "files": [
+      "pindou/analyze.py",
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_051_exif_rotation_is_applied_in_both_image_readers；python -m unittest discover -s tests -p test_analysis_originality.py -v",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "052",
+    "title": "透明图片按白纸合成后统计",
+    "problem": "直接转RGB会把透明区的隐藏颜色当成可见画面，污染主色和相似度。",
+    "change": "RGBA及带透明信息图片先合成到白色背景，再用于两个模块的统计。",
+    "files": [
+      "pindou/analyze.py",
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_052_transparency_uses_visible_white_composite；透明红块与同样可见的白底红块结果逐像素相同",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "053",
+    "title": "整数图像聚类保留小数中心",
+    "problem": "uint8样本的聚类中心保持整数类型，均值0.5被截成0，连续更新产生偏差。",
+    "change": "聚类样本及中心使用float64，输入0和1时得到真实均值0.5。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_053_integer_samples_retain_fractional_cluster_center",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "054",
+    "title": "主色列表去除重复及空簇",
+    "problem": "纯色图片产生8个相同主色，其中7个占比为0，误导角色配色和颜色数量。",
+    "change": "按唯一RGB及真实像素次数聚类，仅输出非空主色。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_054_flat_image_has_one_active_color；纯色图只返回一种颜色且占比1",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "055",
+    "title": "拒绝无效聚类输入",
+    "problem": "空样本、错误RGB维数、NaN、越界颜色及无效聚类次数会产生底层异常或错误结果。",
+    "change": "在聚类入口明确检查矩阵形状、数值范围和整数控制参数，统一给出ValueError。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_055_invalid_cluster_samples_and_controls_are_rejected",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "056",
+    "title": "区分原图尺寸与内部采样尺寸",
+    "problem": "大图被压到640像素后，把采样尺寸写成原图尺寸，用户看到错误画幅信息。",
+    "change": "size记录旋转后的原图尺寸，另加analysis_size说明内部采样尺寸，比例按原图计算。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_056_source_dimensions_are_not_sampling_dimensions；1000×10图保留原尺寸，采样为640×6",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "057",
+    "title": "小图与纯色图也有有限的对称性统计",
+    "problem": "100像素以内图片一律报0对称，大纯色图片相关系数产生NaN警告。",
+    "change": "所有尺寸使用稳定归一化相关计算，完全相同的常量镜像记为1。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_057_small_and_constant_mirror_symmetry_is_finite；1、4、16边长纯色图均为1且严格JSON可编码",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "058",
+    "title": "边缘像素及两像素窄图参与边缘统计",
+    "problem": "梯度只算内部像素，两像素条纹全部被统计为无边缘。",
+    "change": "边界使用单向亮度差，内部继续使用原有双向差，单行单列也能计算。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_058_two_pixel_stripe_has_detectable_edges；2×2黑白条纹边缘密度大于0.9",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "059",
+    "title": "糊格率不把画布两端接在一起",
+    "problem": "np.roll环绕比较会把最右列变化传播到最左列，虚增糊格。",
+    "change": "改为边界复制的3×3局部最大和最小值比较，保留原有亮度及差值判定。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_059_mud_does_not_join_opposite_canvas_edges；52列仅最右列变白时糊格率为1/52约0.019",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "060",
+    "title": "背景采样的四角只计一次",
+    "problem": "四边拼接把角点重复采样，小图背景中位色会被角点主导。",
+    "change": "通过边框布尔掩码采样，每个边缘像素只计一次，中位色按最近整数输出。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_060_background_border_counts_each_corner_once；3×3四角黑边缘其余白时背景为#808080",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "061",
+    "title": "汇总主色按占比计算代表颜色",
+    "problem": "同一色桶直接沿用首张图片颜色，交换参考图顺序就改变配色；重复簇还会虚增出现次数。",
+    "change": "色桶累计占比加权RGB并求均值，出现次数按每张图计一次，并使用确定的排序次序。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_061_aggregate_color_center_is_order_independent_and_weighted；120和130等权汇总为125，调换输入不变",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "062",
+    "title": "汇总结果与输入DNA互不影响",
+    "problem": "images及颜色RGB数组引用原始输入，修改结果会反向改坏输入，影响后续复用。",
+    "change": "聚合入口复制嵌套DNA，输出代表颜色使用新的RGB列表。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_062_aggregate_result_does_not_alias_input_dna",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "063",
+    "title": "汇总前检查外部DNA完整性",
+    "problem": "零画幅、NaN指标、错误明暗档数及空主色仍会被当成可用风格输出。",
+    "change": "校验必需统计、五档比例、背景颜色与比例、RGB及颜色占比，拒绝缺字段和非法值。",
+    "files": [
+      "pindou/analyze.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_063_aggregate_rejects_nonfinite_or_malformed_dna",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "064",
+    "title": "参考目录按统一次序递归扫描",
+    "problem": "只对单目录文件排序、目录依赖系统顺序，大小写及创建顺序会影响汇总和最近参考图的先后。",
+    "change": "统一按相对路径的大小写无关次序排序，再用原路径打破平局，分析及核查共用扫描器。",
+    "files": [
+      "pindou/analyze.py",
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_064_recursive_scan_has_canonical_directory_order",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "065",
+    "title": "重复可见画面不重复加权",
+    "problem": "同图另存PNG、BMP会多次参与统计和参考计数，批量复制即可改变分析结果。",
+    "change": "使用方向和透明处理后的尺寸及RGB内容摘要去重，保留重复数及对应文件名。",
+    "files": [
+      "pindou/analyze.py",
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_065_duplicate_visible_images_do_not_bias_statistics_or_ref_count；两份黑图加白图只统计两张",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "066",
+    "title": "图片读取失败可追踪且不暴露本地路径",
+    "problem": "损坏图片被静默吞掉，或在verbose=False仍打印带绝对目录的Pillow错误。",
+    "change": "scan报告发现数、成功数、失败数、文件名和错误类别，安静模式不输出，异常原始路径不进入报告。",
+    "files": [
+      "pindou/analyze.py",
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_066_corrupt_image_diagnostics_are_quiet_and_do_not_leak_paths",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "067",
+    "title": "非法网格不再被当成白色像素",
+    "problem": "负数、超出色卡索引、小数及NaN被忽略成零墨量，产生失真的核查结果。",
+    "change": "网格转墨量前核对非空二维、有限整数、索引范围及色卡RGB范围。",
+    "files": [
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_067_ink_map_rejects_invalid_grid_indices",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "068",
+    "title": "相同常量图也能查出重复",
+    "problem": "相同纯色作品的零均值范数为0，原先NCC返回0，完全重复款错误通过。",
+    "change": "两张相同常量图相关值记为1，不同常量图仍为0，常规图继续用原有NCC。",
+    "files": [
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_068_identical_constant_maps_are_duplicates；两个同色实心网格款间核查不通过",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "069",
+    "title": "相似度入口拒绝错误矩阵",
+    "problem": "不同尺寸可被numpy广播比较，空图和NaN会产出无意义数值，越界墨量被dHash截断绕回。",
+    "change": "NCC检查非空有限二维且形状相同，dHash额外检查0到1墨量及正整数尺寸。",
+    "files": [
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_069_similarity_rejects_invalid_map_shapes_and_nonfinite_data",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "070",
+    "title": "NCC计算避免浮点平方溢出",
+    "problem": "float32大数图的范数和内积溢出，连自身比较也返回NaN。",
+    "change": "用float64并在去均值前按最大幅值缩放，最后把舍入误差限制在[-1,1]，判定阈值保持不变。",
+    "files": [
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_070_ncc_does_not_overflow_float32_norms；0到3e30自身比较为1且不产生警告",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "071",
+    "title": "拒绝无作品、重复编号和全空白核查",
+    "problem": "零作品及全空白作品会自动通过；重复编号使报告无法准确定位问题款。",
+    "change": "核查入口要求至少一款、非空唯一字符串编号，以及至少一个放豆格。",
+    "files": [
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_071_check_rejects_empty_designs_duplicate_ids_and_blank_work",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "072",
+    "title": "区分有限检查与参考图读取失败",
+    "problem": "无参考图、路径写错和参考图全部损坏都被当成完整通过，-1及999也被显示为真实指标。",
+    "change": "新增status、scope、ref_status、pair_status；未执行指标为null，指定参考目录无效或存在读取失败时标为incomplete且pass_=false。",
+    "files": [
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_072_reference_scope_distinguishes_missing_and_failed_checks；无参考为limited，损坏或缺目录为incomplete",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "073",
+    "title": "最小dHash真正覆盖全部参考图",
+    "problem": "最小dHash只取最大NCC所对应的参考图，遗漏其他更小哈希距离。",
+    "change": "分别记录最大NCC参考与最小dHash参考，逐款及全局均汇总所有参考比较。",
+    "files": [
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_073_minimum_ref_hash_uses_all_references；合成两参考夹具原版误报14，修复后返回真实最小值8；work/analysis-minhash-red.log",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "074",
+    "title": "同名参考图可准确区分",
+    "problem": "不同私有子目录的同名图片在最近参考、标记列表中无法区分。",
+    "change": "同basename的参考加稳定序号，不把父目录和绝对路径写进报告。",
+    "files": [
+      "pindou/analyze.py",
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_074_same_basename_references_have_distinct_private_labels",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "075",
+    "title": "防止报告字段破坏表格和插入HTML",
+    "problem": "用户编号、系列标题、风格和参考文件名直接拼入Markdown，可破坏表格、换行插段或注入HTML。",
+    "change": "表格及标题统一做HTML与Markdown转义，安全展示输入；报告同时消费真实核查状态，说明数值检测边界。",
+    "files": [
+      "pindou/originality.py",
+      "tests/test_analysis_originality.py"
+    ],
+    "validation": "test_075_markdown_escapes_user_cells_and_states_check_boundary；python scripts/pindou.py selftest",
+    "commit": "8b5e702",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "076",
+    "title": "Windows终端自测正常退出",
+    "problem": "旧版输出勾号导致GBK编码错误",
+    "change": "将自测完成符号改为兼容中文终端的ASCII，清理自测临时目录",
+    "files": [
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 076 -v；test_076_cli_selftest_runs_in_gbk_terminal",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "077",
+    "title": "核查不通过返回失败退出码",
+    "problem": "命令总返回0，批处理无法识别核查失败",
+    "change": "main根据核查pass_返回2，常见用户输入错误给出简明提示",
+    "files": [
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 077 -v；test_077_check_failure_produces_nonzero_cli_exit",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "078",
+    "title": "目录正确保存逗号和换行",
+    "problem": "手工拼接CSV导致作品名拆列或拆行",
+    "change": "改用标准CSV写入器并保留Excel中文编码",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 078 -v；test_078_catalog_quotes_commas_quotes_and_newlines",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "079",
+    "title": "作品名不会被表格软件执行为公式",
+    "problem": "以等号等开头的名字被当作公式",
+    "change": "CSV文本单元格对公式前缀转义，JSON保留原始名字",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 079 -v；test_079_catalog_neutralizes_formula_names",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "080",
+    "title": "目录提供可搬运的文件链接",
+    "problem": "catalog缺少图纸和网格文件位置",
+    "change": "保存色号图、原画、效果图、网格相对路径",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 080 -v；test_080_catalog_contains_portable_artifact_paths",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "081",
+    "title": "防止白边掩盖主体被删空",
+    "problem": "低多边鹿被碎块清理删掉后，外圈新增白豆抵消了丢豆数量，错误地跳过重试",
+    "change": "按原有墨格实际保留率触发桥接重试，恢复主体并保持四邻连通",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_delivery.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 081 -v；test_081_subject_survives_white_border_cleanup",
+    "commit": "b8d65ad",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "082",
+    "title": "拒绝不规则网格行",
+    "problem": "不同宽度的网格被默默接受或读回崩溃",
+    "change": "解析时检查非空二维矩形并指出行宽错误",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 082 -v；test_082_ragged_grid_rejected",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "083",
+    "title": "拒绝未定义网格符号",
+    "problem": "未知符号被当成空白，作品会丢豆",
+    "change": "符号必须出现在图例中，支持BOM和常用换行",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 083 -v；test_083_unknown_grid_symbol_rejected",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "084",
+    "title": "拒绝冲突图例",
+    "problem": "重复符号覆盖原色号，读回后颜色变化",
+    "change": "图例去冲突并核验真实色号",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 084 -v；test_084_conflicting_legend_rejected",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "085",
+    "title": "核验网格声明尺寸",
+    "problem": "文件头写52x52但正文不匹配也能核查",
+    "change": "声明宽高必须与正文实际行列一致",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 085 -v；test_085_declared_dimensions_checked",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "086",
+    "title": "导出前验证网格色号索引",
+    "problem": "负数或越界值导出时崩溃或错指颜色",
+    "change": "拒绝无效索引，额外角色自动分配不冲突单字符号",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 086 -v；test_086_grid_export_rejects_invalid_palette_index",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "087",
+    "title": "统一网格色号还原",
+    "problem": "check独立手写解析器，额外色号和错误处理不一致",
+    "change": "新增load_grid并由check使用，按真实色号还原且使用32位索引",
+    "files": [
+      "pindou/build.py",
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 087 -v；test_087_grid_loader_roundtrips_bead_codes",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "088",
+    "title": "空目录不能冒充核查通过",
+    "problem": "没有作品的目录也会生成通过报告",
+    "change": "check在没有网格文件时明确报错",
+    "files": [
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 088 -v；test_088_check_empty_directory_is_error",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "089",
+    "title": "生成可用于Windows的文件名",
+    "problem": "CON等保留名和结尾点号导致写文件失败",
+    "change": "统一清理非法字符、保留名、结尾点和过长名称",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 089 -v；test_089_windows_reserved_filename_is_safe",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "090",
+    "title": "错误构建参数不创建半成品",
+    "problem": "先建目录再排方案，无效数量会留下残留文件夹",
+    "change": "把方案、尺寸和编号验证前置到创建目录前",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 090 -v；test_090_invalid_build_leaves_no_output",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "091",
+    "title": "保护已有系列免于覆盖混款",
+    "problem": "同目录重复构建覆盖同编号并遗留旧款",
+    "change": "发现已有目录或作品文件时拒绝写入，提示使用新目录",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 091 -v；test_091_existing_output_is_not_overwritten",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "092",
+    "title": "压缩包只包含明确交付物",
+    "problem": "遍历整个输出目录会收进参考图、私有资料和临时文件",
+    "change": "build传入准确文件列表，通用打包仅收已知交付目录和文件",
+    "files": [
+      "pindou/chartkit.py",
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 092 -v；test_092_zip_excludes_private_and_unrelated_files",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "093",
+    "title": "校验压缩包内部路径",
+    "problem": "extra文件允许../等向外路径和重复成员",
+    "change": "拒绝绝对、向外、重复路径和符号链接，排序写入",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 093 -v；test_093_zip_rejects_traversal_member_name",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "094",
+    "title": "打包失败保留已有压缩包",
+    "problem": "直接打开目标zip会先清空旧包",
+    "change": "验证成员后写临时包，成功后一次替换目标",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 094 -v；test_094_failed_zip_preserves_previous_archive",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "095",
+    "title": "交付文件可校验且参数可复现",
+    "problem": "缺少整套文件指纹和完整已解析配置",
+    "change": "新增manifest记录SHA256、字节数、风格快照、每款方案和导出尺寸",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 095 -v；test_095_manifest_verifies_delivered_bytes",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "096",
+    "title": "PNG导出创建目录并避免半文件",
+    "problem": "独立导出到新目录失败，保存中断会留下损坏PNG",
+    "change": "建立父目录、明确PNG格式、写临时文件后替换，保留元数据",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 096 -v；test_096_png_save_creates_parent_and_keeps_metadata",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "097",
+    "title": "总览缩略图不修改调用方图片",
+    "problem": "thumbnail直接缩小外部传入图片",
+    "change": "复制图片后缩放，路径图片用上下文及时关闭",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 097 -v；test_097_contact_sheet_does_not_resize_callers_image",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "098",
+    "title": "同色号跨角色用量正确汇总",
+    "problem": "相同真实色号计数被后一个角色覆盖",
+    "change": "Pattern和工艺统计按色号累加，图纸总量和真实豆数一致",
+    "files": [
+      "pindou/chartkit.py",
+      "pindou/beadify.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 098 -v；test_098_pattern_aggregates_same_code_across_roles",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "099",
+    "title": "总览和造型对照图补齐来源信息",
+    "problem": "总览没有作者和时间，audit字体写死且不能新建父目录",
+    "change": "总览继承构建元数据，audit复用跨平台字体和统一PNG保存",
+    "files": [
+      "pindou/build.py",
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 099 -v；test_099_overview_preserves_build_metadata",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  },
+  {
+    "id": "100",
+    "title": "新版交接包可完整安全还原",
+    "problem": "固定文件列表漏新模块测试文档，原还原脚本边读边覆盖",
+    "change": "自动收录新增源码测试文档，先验证全包SHA256和路径再写入且不覆盖现有文件",
+    "files": [
+      "scripts/pack_handoff.py",
+      "scripts/restore_handoff.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 100 -v；test_100_handoff_collects_new_modules_tests_and_docs",
+    "commit": "89cdd4b",
+    "status": "已落实；验证及后续复核修正见docs/verification.md"
+  }
+]

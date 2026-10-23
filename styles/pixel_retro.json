@@ -1,0 +1,82 @@
+{
+  "id": "pixel_retro",
+  "name": "像素复古",
+  "desc": "深蓝底、8 色高对比，方格与网点，8-bit 游戏感",
+  "tags": [
+    "像素",
+    "8bit",
+    "游戏",
+    "高对比",
+    "深底"
+  ],
+  "palette": {
+    "bg": "#2F1F90",
+    "white": "#FEFFFF",
+    "light": "#A0E2FB",
+    "mid": "#F77C31",
+    "dark": "#BC0028",
+    "line": "#000000",
+    "accent": "#FBED56"
+  },
+  "color_set": "mard72",
+  "bg": "fill",
+  "line_width": 1.4,
+  "fill": "mid",
+  "detail": "line",
+  "shade1": "dark",
+  "shade2": "line",
+  "fill_texture": "checker",
+  "face_texture": "dots",
+  "texture_pool": [
+    "checker",
+    "dots",
+    "solid"
+  ],
+  "formats": {
+    "S": 0.7,
+    "M": 0.2,
+    "V": 0.1
+  },
+  "templates": [
+    "tile",
+    "card",
+    "fullbleed",
+    "badge",
+    "frame",
+    "split"
+  ],
+  "subjects": [
+    "ghost",
+    "heart",
+    "star",
+    "cat_face",
+    "mushroom",
+    "bee",
+    "fish",
+    "crab",
+    "dino",
+    "cassette",
+    "camera",
+    "cloud",
+    "dog",
+    "panda",
+    "path"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.06
+  },
+  "accent_rate": 0.6,
+  "splatter": 0,
+  "sat_target": 0.55,
+  "contrast_target": 0.7,
+  "edge_target": 0.3,
+  "ink_target": 0.3,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  }
+}

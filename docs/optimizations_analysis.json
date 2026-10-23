@@ -1,0 +1,202 @@
+[
+  {
+    "id": "051",
+    "title": "按照片实际显示方向分析和核查",
+    "problem": "忽略EXIF旋转会把竖图当横图，并使相同画面产生不同核查结果。",
+    "change": "图片统一先应用EXIF方向；风格分析与参考图缩格共用同一读取逻辑。",
+    "files": ["pindou/analyze.py", "pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_051_exif_rotation_is_applied_in_both_image_readers；python -m unittest discover -s tests -p test_analysis_originality.py -v"
+  },
+  {
+    "id": "052",
+    "title": "透明图片按白纸合成后统计",
+    "problem": "直接转RGB会把透明区的隐藏颜色当成可见画面，污染主色和相似度。",
+    "change": "RGBA及带透明信息图片先合成到白色背景，再用于两个模块的统计。",
+    "files": ["pindou/analyze.py", "pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_052_transparency_uses_visible_white_composite；透明红块与同样可见的白底红块结果逐像素相同"
+  },
+  {
+    "id": "053",
+    "title": "整数图像聚类保留小数中心",
+    "problem": "uint8样本的聚类中心保持整数类型，均值0.5被截成0，连续更新产生偏差。",
+    "change": "聚类样本及中心使用float64，输入0和1时得到真实均值0.5。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_053_integer_samples_retain_fractional_cluster_center"
+  },
+  {
+    "id": "054",
+    "title": "主色列表去除重复及空簇",
+    "problem": "纯色图片产生8个相同主色，其中7个占比为0，误导角色配色和颜色数量。",
+    "change": "按唯一RGB及真实像素次数聚类，仅输出非空主色。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_054_flat_image_has_one_active_color；纯色图只返回一种颜色且占比1"
+  },
+  {
+    "id": "055",
+    "title": "拒绝无效聚类输入",
+    "problem": "空样本、错误RGB维数、NaN、越界颜色及无效聚类次数会产生底层异常或错误结果。",
+    "change": "在聚类入口明确检查矩阵形状、数值范围和整数控制参数，统一给出ValueError。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_055_invalid_cluster_samples_and_controls_are_rejected"
+  },
+  {
+    "id": "056",
+    "title": "区分原图尺寸与内部采样尺寸",
+    "problem": "大图被压到640像素后，把采样尺寸写成原图尺寸，用户看到错误画幅信息。",
+    "change": "size记录旋转后的原图尺寸，另加analysis_size说明内部采样尺寸，比例按原图计算。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_056_source_dimensions_are_not_sampling_dimensions；1000×10图保留原尺寸，采样为640×6"
+  },
+  {
+    "id": "057",
+    "title": "小图与纯色图也有有限的对称性统计",
+    "problem": "100像素以内图片一律报0对称，大纯色图片相关系数产生NaN警告。",
+    "change": "所有尺寸使用稳定归一化相关计算，完全相同的常量镜像记为1。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_057_small_and_constant_mirror_symmetry_is_finite；1、4、16边长纯色图均为1且严格JSON可编码"
+  },
+  {
+    "id": "058",
+    "title": "边缘像素及两像素窄图参与边缘统计",
+    "problem": "梯度只算内部像素，两像素条纹全部被统计为无边缘。",
+    "change": "边界使用单向亮度差，内部继续使用原有双向差，单行单列也能计算。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_058_two_pixel_stripe_has_detectable_edges；2×2黑白条纹边缘密度大于0.9"
+  },
+  {
+    "id": "059",
+    "title": "糊格率不把画布两端接在一起",
+    "problem": "np.roll环绕比较会把最右列变化传播到最左列，虚增糊格。",
+    "change": "改为边界复制的3×3局部最大和最小值比较，保留原有亮度及差值判定。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_059_mud_does_not_join_opposite_canvas_edges；52列仅最右列变白时糊格率为1/52约0.019"
+  },
+  {
+    "id": "060",
+    "title": "背景采样的四角只计一次",
+    "problem": "四边拼接把角点重复采样，小图背景中位色会被角点主导。",
+    "change": "通过边框布尔掩码采样，每个边缘像素只计一次，中位色按最近整数输出。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_060_background_border_counts_each_corner_once；3×3四角黑边缘其余白时背景为#808080"
+  },
+  {
+    "id": "061",
+    "title": "汇总主色按占比计算代表颜色",
+    "problem": "同一色桶直接沿用首张图片颜色，交换参考图顺序就改变配色；重复簇还会虚增出现次数。",
+    "change": "色桶累计占比加权RGB并求均值，出现次数按每张图计一次，并使用确定的排序次序。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_061_aggregate_color_center_is_order_independent_and_weighted；120和130等权汇总为125，调换输入不变"
+  },
+  {
+    "id": "062",
+    "title": "汇总结果与输入DNA互不影响",
+    "problem": "images及颜色RGB数组引用原始输入，修改结果会反向改坏输入，影响后续复用。",
+    "change": "聚合入口复制嵌套DNA，输出代表颜色使用新的RGB列表。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_062_aggregate_result_does_not_alias_input_dna"
+  },
+  {
+    "id": "063",
+    "title": "汇总前检查外部DNA完整性",
+    "problem": "零画幅、NaN指标、错误明暗档数及空主色仍会被当成可用风格输出。",
+    "change": "校验必需统计、五档比例、背景颜色与比例、RGB及颜色占比，拒绝缺字段和非法值。",
+    "files": ["pindou/analyze.py", "tests/test_analysis_originality.py"],
+    "validation": "test_063_aggregate_rejects_nonfinite_or_malformed_dna"
+  },
+  {
+    "id": "064",
+    "title": "参考目录按统一次序递归扫描",
+    "problem": "只对单目录文件排序、目录依赖系统顺序，大小写及创建顺序会影响汇总和最近参考图的先后。",
+    "change": "统一按相对路径的大小写无关次序排序，再用原路径打破平局，分析及核查共用扫描器。",
+    "files": ["pindou/analyze.py", "pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_064_recursive_scan_has_canonical_directory_order"
+  },
+  {
+    "id": "065",
+    "title": "重复可见画面不重复加权",
+    "problem": "同图另存PNG、BMP会多次参与统计和参考计数，批量复制即可改变分析结果。",
+    "change": "使用方向和透明处理后的尺寸及RGB内容摘要去重，保留重复数及对应文件名。",
+    "files": ["pindou/analyze.py", "pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_065_duplicate_visible_images_do_not_bias_statistics_or_ref_count；两份黑图加白图只统计两张"
+  },
+  {
+    "id": "066",
+    "title": "图片读取失败可追踪且不暴露本地路径",
+    "problem": "损坏图片被静默吞掉，或在verbose=False仍打印带绝对目录的Pillow错误。",
+    "change": "scan报告发现数、成功数、失败数、文件名和错误类别，安静模式不输出，异常原始路径不进入报告。",
+    "files": ["pindou/analyze.py", "pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_066_corrupt_image_diagnostics_are_quiet_and_do_not_leak_paths"
+  },
+  {
+    "id": "067",
+    "title": "非法网格不再被当成白色像素",
+    "problem": "负数、超出色卡索引、小数及NaN被忽略成零墨量，产生失真的核查结果。",
+    "change": "网格转墨量前核对非空二维、有限整数、索引范围及色卡RGB范围。",
+    "files": ["pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_067_ink_map_rejects_invalid_grid_indices"
+  },
+  {
+    "id": "068",
+    "title": "相同常量图也能查出重复",
+    "problem": "相同纯色作品的零均值范数为0，原先NCC返回0，完全重复款错误通过。",
+    "change": "两张相同常量图相关值记为1，不同常量图仍为0，常规图继续用原有NCC。",
+    "files": ["pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_068_identical_constant_maps_are_duplicates；两个同色实心网格款间核查不通过"
+  },
+  {
+    "id": "069",
+    "title": "相似度入口拒绝错误矩阵",
+    "problem": "不同尺寸可被numpy广播比较，空图和NaN会产出无意义数值，越界墨量被dHash截断绕回。",
+    "change": "NCC检查非空有限二维且形状相同，dHash额外检查0到1墨量及正整数尺寸。",
+    "files": ["pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_069_similarity_rejects_invalid_map_shapes_and_nonfinite_data"
+  },
+  {
+    "id": "070",
+    "title": "NCC计算避免浮点平方溢出",
+    "problem": "float32大数图的范数和内积溢出，连自身比较也返回NaN。",
+    "change": "用float64并在去均值前按最大幅值缩放，最后把舍入误差限制在[-1,1]，判定阈值保持不变。",
+    "files": ["pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_070_ncc_does_not_overflow_float32_norms；0到3e30自身比较为1且不产生警告"
+  },
+  {
+    "id": "071",
+    "title": "拒绝无作品、重复编号和全空白核查",
+    "problem": "零作品及全空白作品会自动通过；重复编号使报告无法准确定位问题款。",
+    "change": "核查入口要求至少一款、非空唯一字符串编号，以及至少一个放豆格。",
+    "files": ["pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_071_check_rejects_empty_designs_duplicate_ids_and_blank_work"
+  },
+  {
+    "id": "072",
+    "title": "区分有限检查与参考图读取失败",
+    "problem": "无参考图、路径写错和参考图全部损坏都被当成完整通过，-1及999也被显示为真实指标。",
+    "change": "新增status、scope、ref_status、pair_status；未执行指标为null，指定参考目录无效或存在读取失败时标为incomplete且pass_=false。",
+    "files": ["pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_072_reference_scope_distinguishes_missing_and_failed_checks；无参考为limited，损坏或缺目录为incomplete"
+  },
+  {
+    "id": "073",
+    "title": "最小dHash真正覆盖全部参考图",
+    "problem": "最小dHash只取最大NCC所对应的参考图，遗漏其他更小哈希距离。",
+    "change": "分别记录最大NCC参考与最小dHash参考，逐款及全局均汇总所有参考比较。",
+    "files": ["pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_073_minimum_ref_hash_uses_all_references；合成两参考夹具原版误报14，修复后返回真实最小值8；work/analysis-minhash-red.log"
+  },
+  {
+    "id": "074",
+    "title": "同名参考图可准确区分",
+    "problem": "不同私有子目录的同名图片在最近参考、标记列表中无法区分。",
+    "change": "同basename的参考加稳定序号，不把父目录和绝对路径写进报告。",
+    "files": ["pindou/analyze.py", "pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_074_same_basename_references_have_distinct_private_labels"
+  },
+  {
+    "id": "075",
+    "title": "防止报告字段破坏表格和插入HTML",
+    "problem": "用户编号、系列标题、风格和参考文件名直接拼入Markdown，可破坏表格、换行插段或注入HTML。",
+    "change": "表格及标题统一做HTML与Markdown转义，安全展示输入；报告同时消费真实核查状态，说明数值检测边界。",
+    "files": ["pindou/originality.py", "tests/test_analysis_originality.py"],
+    "validation": "test_075_markdown_escapes_user_cells_and_states_check_boundary；python scripts/pindou.py selftest"
+  }
+]

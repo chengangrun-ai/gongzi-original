@@ -1,0 +1,82 @@
+{
+  "id": "stained_glass",
+  "name": "彩窗",
+  "desc": "深色铅条 + 饱和玻璃色块，分区填色",
+  "tags": [
+    "彩窗",
+    "玻璃",
+    "分区",
+    "饱和",
+    "教堂"
+  ],
+  "palette": {
+    "bg": "#2F1F90",
+    "white": "#FEFFFF",
+    "light": "#CDE8FF",
+    "mid": "#F77C31",
+    "dark": "#0F54C0",
+    "line": "#000000",
+    "accent": "#FBED56",
+    "accent2": "#35E352"
+  },
+  "color_set": "mard72",
+  "bg": "fill",
+  "line_width": 1.6,
+  "fill": "mid",
+  "detail": "line",
+  "shade1": "dark",
+  "shade2": "line",
+  "fill_texture": "solid",
+  "face_texture": "solid",
+  "texture_pool": [
+    "solid",
+    "gradient"
+  ],
+  "formats": {
+    "S": 0.6,
+    "M": 0.3,
+    "V": 0.1
+  },
+  "templates": [
+    "window",
+    "arch",
+    "medallion",
+    "radial",
+    "badge",
+    "emblem",
+    "split"
+  ],
+  "subjects": [
+    "flower",
+    "lotus",
+    "bird",
+    "eye",
+    "star",
+    "sun",
+    "moon",
+    "dragon",
+    "butterfly",
+    "koi",
+    "heart",
+    "mandala",
+    "sakura",
+    "moon_phase"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.06
+  },
+  "accent_rate": 0.9,
+  "splatter": 0,
+  "sat_target": 0.6,
+  "contrast_target": 0.7,
+  "edge_target": 0.25,
+  "ink_target": 0.3,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  }
+}

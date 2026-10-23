@@ -1,0 +1,84 @@
+{
+  "id": "sunset_warm",
+  "name": "落日渐变",
+  "desc": "暖橙粉紫、渐变天空与放射光，复古海报感",
+  "tags": [
+    "渐变",
+    "暖色",
+    "日落",
+    "复古",
+    "海报"
+  ],
+  "palette": {
+    "white": "#FFDD99",
+    "light": "#FFC4AA",
+    "mid": "#FE8B4C",
+    "dark": "#C63478",
+    "line": "#753832",
+    "accent": "#FBED56"
+  },
+  "color_set": "mard72",
+  "bg": "paper",
+  "line_width": 1.4,
+  "fill": "mid",
+  "detail": "line",
+  "shade1": "dark",
+  "shade2": "line",
+  "fill_texture": "gradient",
+  "face_texture": "gradient",
+  "texture_pool": [
+    "gradient",
+    "solid",
+    "dots"
+  ],
+  "formats": {
+    "S": 0.3,
+    "M": 0.25,
+    "V": 0.45
+  },
+  "templates": [
+    "poster",
+    "horizon",
+    "radial",
+    "arch",
+    "banner",
+    "frame",
+    "scene",
+    "split"
+  ],
+  "subjects": [
+    "sun",
+    "moon",
+    "mountain",
+    "wave_icon",
+    "tree",
+    "cloud",
+    "bird",
+    "comet",
+    "planet",
+    "koi",
+    "flower",
+    "bridge",
+    "path",
+    "gate",
+    "fence"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.05
+  },
+  "accent_rate": 0.7,
+  "splatter": 0,
+  "sat_target": 0.55,
+  "contrast_target": 0.6,
+  "edge_target": 0.16,
+  "ink_target": 0.18,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  },
+  "ground": "dark"
+}

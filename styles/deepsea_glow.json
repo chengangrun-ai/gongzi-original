@@ -1,0 +1,83 @@
+{
+  "id": "deepsea_glow",
+  "name": "深海幻光",
+  "desc": "深蓝水下、橙金半透明花团、巨大比例差的摄影感，满底渐变",
+  "tags": [
+    "深海",
+    "发光",
+    "橙金",
+    "深蓝",
+    "摄影感",
+    "梦幻"
+  ],
+  "palette": {
+    "bg": "#19779D",
+    "dark": "#156A6B",
+    "line": "#0B3C43",
+    "mid": "#E07935",
+    "light": "#FFC365",
+    "white": "#F6EFE2",
+    "accent": "#FE8B4C"
+  },
+  "color_set": "mard291",
+  "bg": "fill",
+  "line_width": 1.15,
+  "fill": "mid",
+  "detail": "light",
+  "shade1": "dark",
+  "shade2": "line",
+  "hi": "white",
+  "ground": "dark",
+  "sky_role": "dark",
+  "hill_far": "dark",
+  "hill_near": "line",
+  "fill_texture": "stipple",
+  "face_texture": "stipple",
+  "texture_pool": [
+    "stipple",
+    "sparkle",
+    "solid"
+  ],
+  "formats": {
+    "S": 0.3,
+    "M": 0.2,
+    "V": 0.5
+  },
+  "templates": [
+    "fullbleed",
+    "emblem",
+    "poster",
+    "split"
+  ],
+  "subjects": [
+    "jellyfish",
+    "lotus",
+    "flower",
+    "octopus",
+    "koi",
+    "moon",
+    "fish",
+    "sakura",
+    "cloud"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.08
+  },
+  "accent_rate": 0.85,
+  "splatter": 0,
+  "stipple_density": 0.35,
+  "fill_ratio": 0.98,
+  "sat_target": 0.55,
+  "contrast_target": 0.35,
+  "edge_target": 0.09,
+  "ink_target": 0.15,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  },
+  "poster_rays": false
+}

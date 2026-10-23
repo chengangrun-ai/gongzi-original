@@ -1,0 +1,90 @@
+{
+  "id": "kawaii_pastel",
+  "name": "马卡龙萌系",
+  "desc": "奶油底、粉紫薄荷、粗圆线，适合萌物与食物题材",
+  "tags": [
+    "萌系",
+    "马卡龙",
+    "低饱和",
+    "粗线",
+    "可爱"
+  ],
+  "palette": {
+    "bg": "#FFE2CE",
+    "white": "#FEFFFF",
+    "light": "#FFDBE9",
+    "mid": "#FFB7E7",
+    "dark": "#E8649E",
+    "line": "#753832",
+    "accent": "#FEFF8B"
+  },
+  "color_set": "mard72",
+  "bg": "fill",
+  "line_width": 1.5,
+  "fill": "light",
+  "detail": "line",
+  "shade1": "mid",
+  "shade2": "dark",
+  "fill_texture": "solid",
+  "face_texture": "solid",
+  "texture_pool": [
+    "solid",
+    "dots",
+    "gradient"
+  ],
+  "formats": {
+    "S": 0.55,
+    "M": 0.25,
+    "V": 0.2
+  },
+  "templates": [
+    "badge",
+    "sticker",
+    "frame",
+    "card",
+    "radial",
+    "banner",
+    "corner",
+    "wreath",
+    "tile",
+    "emblem",
+    "split"
+  ],
+  "subjects": [
+    "cat_face",
+    "bear_face",
+    "bunny_face",
+    "ghost",
+    "cloud",
+    "rainbow",
+    "star_buddy",
+    "heart",
+    "mushroom",
+    "flower",
+    "cat",
+    "rabbit",
+    "coffee",
+    "camera",
+    "cassette",
+    "panda",
+    "dog",
+    "sakura"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.05
+  },
+  "accent_rate": 0.8,
+  "splatter": 0,
+  "sat_target": 0.3,
+  "contrast_target": 0.45,
+  "edge_target": 0.18,
+  "ink_target": 0.15,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  }
+}

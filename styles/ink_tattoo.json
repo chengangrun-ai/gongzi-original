@@ -1,0 +1,103 @@
+{
+  "id": "ink_tattoo",
+  "name": "墨纹",
+  "desc": "黑白灰纹身稿：细线、部落纹与点刺，一点红作点睛，贴纸式白边",
+  "tags": [
+    "黑白",
+    "纹身",
+    "细线",
+    "高对比",
+    "部落",
+    "点刺"
+  ],
+  "palette": {
+    "white": "#FEFFFF",
+    "light": "#B6B1BA",
+    "mid": "#89858C",
+    "dark": "#48464E",
+    "line": "#000000",
+    "accent": "#E7002F"
+  },
+  "color_set": "mard72",
+  "bg": "paper",
+  "line_width": 1.3,
+  "fill": "light",
+  "detail": "line",
+  "shade1": "dark",
+  "shade2": "line",
+  "hi": "light",
+  "fill_texture": "stipple",
+  "texture_pool": [
+    "stipple",
+    "scales",
+    "hatch",
+    "dots",
+    "seigaiha"
+  ],
+  "face_texture": "solid",
+  "wing_texture": "hatch",
+  "formats": {
+    "S": 0.4,
+    "M": 0.25,
+    "V": 0.35
+  },
+  "templates": [
+    "badge",
+    "frame",
+    "arch",
+    "fullbleed",
+    "medallion",
+    "poster",
+    "wreath",
+    "radial",
+    "corner",
+    "banner",
+    "horizon",
+    "emblem",
+    "split"
+  ],
+  "subjects": [
+    "cat",
+    "wolf",
+    "koi",
+    "octopus",
+    "moth",
+    "snake",
+    "moon",
+    "compass",
+    "skull",
+    "eye",
+    "lotus",
+    "dragon",
+    "owl",
+    "butterfly",
+    "whale",
+    "rose",
+    "dagger",
+    "anchor",
+    "spiral",
+    "triquetra",
+    "koi_pair",
+    "moon_phase",
+    "bridge"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.04
+  },
+  "accent_rate": 0.45,
+  "splatter": 6,
+  "stipple_density": 0.38,
+  "sat_target": 0.06,
+  "contrast_target": 0.82,
+  "edge_target": 0.22,
+  "ink_target": 0.24,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  },
+  "ground": "mid"
+}

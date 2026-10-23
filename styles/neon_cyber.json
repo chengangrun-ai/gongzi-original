@@ -1,0 +1,85 @@
+{
+  "id": "neon_cyber",
+  "name": "赛博霓虹",
+  "desc": "纯黑底、霓虹青与洋红，网格与故障感",
+  "tags": [
+    "赛博",
+    "霓虹",
+    "黑底",
+    "发光",
+    "未来"
+  ],
+  "palette": {
+    "bg": "#000000",
+    "white": "#FEFFFF",
+    "light": "#A9F9FC",
+    "mid": "#B90095",
+    "dark": "#2F1F90",
+    "line": "#28DDDE",
+    "accent": "#E6EE49"
+  },
+  "color_set": "mard72",
+  "bg": "fill",
+  "line_width": 1.4,
+  "fill": "dark",
+  "detail": "light",
+  "shade1": "mid",
+  "shade2": "line",
+  "fill_texture": "dots",
+  "face_texture": "dots",
+  "texture_pool": [
+    "dots",
+    "checker",
+    "solid",
+    "hatch"
+  ],
+  "formats": {
+    "S": 0.4,
+    "M": 0.3,
+    "V": 0.3
+  },
+  "templates": [
+    "frame",
+    "radial",
+    "badge",
+    "poster",
+    "window",
+    "card",
+    "fullbleed",
+    "emblem",
+    "split"
+  ],
+  "subjects": [
+    "eye",
+    "skull",
+    "cat",
+    "dragon",
+    "snake",
+    "compass",
+    "planet",
+    "spiral",
+    "mandala",
+    "triquetra",
+    "butterfly",
+    "wolf",
+    "bridge",
+    "path"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.05
+  },
+  "accent_rate": 0.9,
+  "splatter": 0,
+  "sat_target": 0.7,
+  "contrast_target": 0.9,
+  "edge_target": 0.3,
+  "ink_target": 0.45,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  }
+}

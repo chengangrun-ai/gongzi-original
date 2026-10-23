@@ -1,0 +1,277 @@
+[
+  {
+    "id": "001",
+    "title": "防止风格默认值和调用方配置串改",
+    "problem": "normalize 只做浅拷贝，修改一套作品的画幅、标签或难度会污染后续作品及原始输入。",
+    "change": "对默认配置和用户配置深拷贝，输出中的嵌套对象独立。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_001_normalize_isolates_nested_defaults_and_input；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "002",
+    "title": "让缺失颜色角色落到实际可用颜色",
+    "problem": "仅有描边色等少色风格仍会把填充退到不存在的 dark/mid，纹理代码检查角色时可能漏画。",
+    "change": "按角色语义顺序寻找当前配色中真实存在的替代角色，保留 paper。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_002_missing_color_roles_resolve_to_available_roles；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "003",
+    "title": "在绘制前挡住不安全数值配置",
+    "problem": "非有限线宽、越界概率、小数飞点数量和零难度除数会在绘制或统计中产生错误结果。",
+    "change": "集中校验线宽、比例、清理数量、难度和配色权重，明确指出无效字段。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_003_rejects_unsafe_numeric_style_settings；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "004",
+    "title": "拒绝失效的画幅配比",
+    "problem": "未知画幅、负数、无穷大或全零配比被忽略或回退，小样尺寸与用户指定不符。",
+    "change": "限定 S/M/V、有限非负权重且至少一个正值；分配前缩放权重避免有限大数求和溢出。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_004_rejects_invalid_format_distributions；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "005",
+    "title": "防止纹理名称拼错后悄悄变成平涂",
+    "problem": "错误纹理或把纹理池写成单个字符串会被误当作可用设置，成品与配置不符。",
+    "change": "校验主体、脸部、翅膀及纹理池中的名称，要求纹理池为非空列表并去重。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_005_rejects_unknown_textures_including_pool；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "006",
+    "title": "检查风格配色结构和角色拼写",
+    "problem": "拼错 accent 等角色名时颜色会被忽略，非对象配色也缺少清楚提示。",
+    "change": "要求 palette 为映射，拒绝未知角色并在配置阶段校验角色颜色。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_006_palette_schema_reports_misspelled_roles；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "007",
+    "title": "明确校验背景模式",
+    "problem": "把 fill 写成 filled 时程序按纸底继续，用户指定的满底会消失。",
+    "change": "背景只接受 paper/fill，并在满底缺少背景色时给出字段错误。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_007_rejects_unknown_background_mode；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "008",
+    "title": "从参考统计生成风格时保留原始资料",
+    "problem": "from_dna 直接往调用方的 palette_roles 中添加 line，生成结果中的题材也共享原列表。",
+    "change": "转换前复制 DNA 和嵌套数据，再补足描边色；结果可独立修改。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_008_dna_conversion_does_not_modify_source；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "009",
+    "title": "阻止风格ID冲突覆盖",
+    "problem": "两个风格文件使用相同或仅大小写不同的ID时，后读入的文件静默覆盖前一个。",
+    "change": "加载时检测不区分大小写的ID冲突，报出冲突ID与文件；同时支持常见UTF-8 BOM文件。",
+    "files": [
+      "pindou/stylepack.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_009_style_registry_rejects_duplicate_ids；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "010",
+    "title": "校验生成款数",
+    "problem": "零、负数、布尔值会生成空批次或意外数量，小数在numpy内部才报错。",
+    "change": "plan 入口只接受正整数款数，错误发生在任何方案生成之前。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_010_plan_requires_a_positive_integer_count；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "011",
+    "title": "完整核对用户选择的题材和构图",
+    "problem": "混合输入有效名称与错误名称时，错误项被静默剔除；显式空列表被替换成默认值。",
+    "change": "题材和构图逐项核对，列出未知项，并区分省略参数与明确空列表。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_011_plan_reports_all_unknown_selections；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "012",
+    "title": "支持直接传入单项名称",
+    "problem": "subjects=\"cat\"、templates=\"badge\"会被拆成字母，导致已存在的选项无法使用。",
+    "change": "将单个名称作为一项解析，并支持用逗号分隔的名称。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_012_single_selection_strings_are_not_split_into_letters；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "013",
+    "title": "消除重复选择造成的抽样偏斜",
+    "problem": "重复题材或构图会占用抽样池，导致一轮题材重复、组合更少；内置botanical也有重复flower。",
+    "change": "保持首次出现的顺序去重，使重复配置与去重配置得到相同固定种子方案。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_013_duplicate_options_do_not_bias_or_repeat_subjects；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "014",
+    "title": "大批量方案每轮都充分利用组合",
+    "problem": "第一轮组合用完后不清空已用记录，后续改为随机选择，第二轮6个名额可能只有4种组合。",
+    "change": "用完题材×构图的整轮组合后重置记录，后续每轮仍用满全部组合再重复。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_014_each_combination_cycle_is_complete_before_repeating；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "015",
+    "title": "提前检查作品编号完整性和冲突",
+    "problem": "编号数量不足会中途IndexError，重复或空编号会造成作品难以区分或覆盖文件。",
+    "change": "明确给出ids时要求与款数等长、编号非空、忽略大小写后唯一。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_015_explicit_ids_must_be_complete_unique_and_nonempty；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "016",
+    "title": "保证大整数种子准确复现",
+    "problem": "numpy int64种子乘1000时溢出成负数，布尔值又会被当成合法种子。",
+    "change": "种子入口校验非负整数，计算派生种子前转为Python整数，避免64位乘法溢出。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_016_seed_validation_and_numpy_integer_seed_are_stable；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "017",
+    "title": "绘制方案在入口一次校验",
+    "problem": "错误题材、构图、尺寸或种子直到深层绘制才报KeyError等异常，定位困难。",
+    "change": "compose 在分配画布前校验方案类型、必需字段、可用名称和种子。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_017_compose_rejects_invalid_specs_before_drawing；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "018",
+    "title": "保存独立的作品生成凭据",
+    "problem": "compose 返回原spec对象，之后用户改种子或标签，会让成品凭据与已生成网格不一致。",
+    "change": "开始绘制时保存方案的深拷贝，并以该副本绘制和返回。",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_018_composition_provenance_is_an_independent_snapshot；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "019",
+    "title": "可靠解析常用十六进制颜色",
+    "problem": "标准#RGB短写和两侧空格无法解析，8位等错误色值反而被截断成另一种颜色。",
+    "change": "严格接收三位或六位颜色、扩展短写，拒绝额外字节和重复井号。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_019_hex_colors_accept_standard_shorthand_and_reject_extra_bytes；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "020",
+    "title": "保持用户限定的备豆色卡范围",
+    "problem": "nearest 的空allowed列表被替换成全色卡，可能选出用户没有的豆色；h7等简写不能用于候选列表。",
+    "change": "仅None表示全部色卡，空集合明确报错，候选色号先规范化、去重和核对。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_020_nearest_preserves_restricted_color_set；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "021",
+    "title": "防止无效RGB参与色差计算",
+    "problem": "NaN、负值、超255及错误三通道形状被送入Lab计算，产生无效或拼接错误的颜色。",
+    "change": "转换前验证最后一维为三个通道，所有值有限并处于0–255。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_021_rgb_conversion_rejects_nonfinite_and_invalid_shape；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "022",
+    "title": "隔离公开色卡与内部缓存",
+    "problem": "card 直接返回全局缓存，调用方改一个色号RGB后，后续所有作品都会使用被改过的错误实物颜色。",
+    "change": "公开card返回独立记录快照，内部查询使用私有缓存。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_022_color_card_callers_cannot_pollute_cached_colors；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "023",
+    "title": "统一实际色号并检查配色索引",
+    "problem": "直接构造Palette使用h7时输出图例仍是h7，负索引会指到末尾颜色，布尔值会当作索引。",
+    "change": "构造时规范化并核对真实色号；索引查询拒绝布尔值和越界整数，所有颜色访问复用检查。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_023_palette_access_uses_canonical_codes_and_valid_indices；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "024",
+    "title": "完整保留读回图纸中的所有颜色",
+    "problem": "from_codes仅把前8种颜色绑定给固定角色，超过8种颜色被静默丢失。",
+    "change": "为额外颜色生成稳定的color_009等角色，保留全部真实色号，并按亮度和色号稳定排序。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_024_imported_palette_keeps_more_than_eight_real_colors；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  },
+  {
+    "id": "025",
+    "title": "修复不同颜色角色抢用同一豆色",
+    "problem": "重复颜色检测把色号与角色名字典键比较，永远发现不了冲突，多角色可能全部变成同一颗豆。",
+    "change": "使用真实色号集合检测冲突，从尚未使用的允许色号中选次优，并同步更新色差报告。",
+    "files": [
+      "pindou/palette.py",
+      "tests/test_data_planning.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_data_planning.py -v；test_025_distinct_color_roles_receive_distinct_real_beads；原版红测失败，修复后通过。整组25项测试通过，python scripts/pindou.py selftest通过，14种内置风格各1款生成且四邻连通。"
+  }
+]

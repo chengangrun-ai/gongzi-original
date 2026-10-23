@@ -1,0 +1,86 @@
+{
+  "id": "pop_art",
+  "name": "波普",
+  "desc": "白底、正红正黄正蓝、黑粗线，网点与放射底纹",
+  "tags": [
+    "波普",
+    "高饱和",
+    "粗线",
+    "复古印刷",
+    "强对比"
+  ],
+  "palette": {
+    "white": "#FEFFFF",
+    "light": "#FBED56",
+    "mid": "#01ACEB",
+    "dark": "#BC0028",
+    "line": "#000000",
+    "accent": "#E7002F",
+    "accent2": "#FBED56"
+  },
+  "color_set": "mard72",
+  "bg": "paper",
+  "line_width": 2.0,
+  "fill": "light",
+  "detail": "line",
+  "shade1": "mid",
+  "shade2": "dark",
+  "fill_texture": "halftone",
+  "face_texture": "halftone",
+  "texture_pool": [
+    "halftone",
+    "solid",
+    "dots",
+    "checker"
+  ],
+  "formats": {
+    "S": 0.6,
+    "M": 0.25,
+    "V": 0.15
+  },
+  "templates": [
+    "radial",
+    "poster",
+    "badge",
+    "frame",
+    "banner",
+    "fullbleed",
+    "tile",
+    "window",
+    "emblem",
+    "split"
+  ],
+  "subjects": [
+    "eye",
+    "heart",
+    "star",
+    "sun",
+    "cat_face",
+    "flower",
+    "camera",
+    "cassette",
+    "coffee",
+    "skull",
+    "mushroom",
+    "rainbow",
+    "dog",
+    "panda"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.08
+  },
+  "accent_rate": 0.7,
+  "splatter": 0,
+  "sat_target": 0.75,
+  "contrast_target": 0.8,
+  "edge_target": 0.2,
+  "ink_target": 0.25,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  }
+}

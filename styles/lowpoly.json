@@ -1,0 +1,84 @@
+{
+  "id": "lowpoly",
+  "name": "低多边",
+  "desc": "冷色折面、硬边几何，像多边形建模",
+  "tags": [
+    "低多边",
+    "几何",
+    "冷色",
+    "硬边",
+    "现代"
+  ],
+  "palette": {
+    "white": "#E3E1EE",
+    "light": "#B9BAE1",
+    "mid": "#858EDD",
+    "dark": "#3677D2",
+    "line": "#1557A8",
+    "accent": "#F35744"
+  },
+  "color_set": "mard72",
+  "bg": "paper",
+  "line_width": 1.2,
+  "fill": "light",
+  "detail": "line",
+  "shade1": "mid",
+  "shade2": "dark",
+  "fill_texture": "contour",
+  "face_texture": "contour",
+  "texture_pool": [
+    "contour",
+    "hatch",
+    "solid"
+  ],
+  "formats": {
+    "S": 0.5,
+    "M": 0.3,
+    "V": 0.2
+  },
+  "templates": [
+    "frame",
+    "fullbleed",
+    "corner",
+    "poster",
+    "badge",
+    "arch",
+    "scene",
+    "emblem"
+  ],
+  "subjects": [
+    "deer",
+    "wolf",
+    "bear",
+    "fox",
+    "bird",
+    "whale",
+    "mountain",
+    "fish",
+    "turtle",
+    "moon",
+    "planet",
+    "dragon",
+    "bridge",
+    "path",
+    "gate"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.05
+  },
+  "accent_rate": 0.5,
+  "splatter": 0,
+  "sat_target": 0.35,
+  "contrast_target": 0.5,
+  "edge_target": 0.2,
+  "ink_target": 0.22,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  },
+  "ground": "dark"
+}

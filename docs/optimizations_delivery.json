@@ -1,0 +1,258 @@
+[
+  {
+    "id": "076",
+    "title": "Windows终端自测正常退出",
+    "problem": "旧版输出勾号导致GBK编码错误",
+    "change": "将自测完成符号改为兼容中文终端的ASCII，清理自测临时目录",
+    "files": [
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 076 -v；test_076_cli_selftest_runs_in_gbk_terminal"
+  },
+  {
+    "id": "077",
+    "title": "核查不通过返回失败退出码",
+    "problem": "命令总返回0，批处理无法识别核查失败",
+    "change": "main根据核查pass_返回2，常见用户输入错误给出简明提示",
+    "files": [
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 077 -v；test_077_check_failure_produces_nonzero_cli_exit"
+  },
+  {
+    "id": "078",
+    "title": "目录正确保存逗号和换行",
+    "problem": "手工拼接CSV导致作品名拆列或拆行",
+    "change": "改用标准CSV写入器并保留Excel中文编码",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 078 -v；test_078_catalog_quotes_commas_quotes_and_newlines"
+  },
+  {
+    "id": "079",
+    "title": "作品名不会被表格软件执行为公式",
+    "problem": "以等号等开头的名字被当作公式",
+    "change": "CSV文本单元格对公式前缀转义，JSON保留原始名字",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 079 -v；test_079_catalog_neutralizes_formula_names"
+  },
+  {
+    "id": "080",
+    "title": "目录提供可搬运的文件链接",
+    "problem": "catalog缺少图纸和网格文件位置",
+    "change": "保存色号图、原画、效果图、网格相对路径",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 080 -v；test_080_catalog_contains_portable_artifact_paths"
+  },
+  {
+    "id": "081",
+    "title": "防止白边掩盖主体被删空",
+    "problem": "低多边鹿被碎块清理删掉后，外圈新增白豆抵消了丢豆数量，错误地跳过重试",
+    "change": "按原有墨格实际保留率触发桥接重试，恢复主体并保持四邻连通",
+    "files": [
+      "pindou/recipes.py",
+      "tests/test_delivery.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 081 -v；test_081_subject_survives_white_border_cleanup"
+  },
+  {
+    "id": "082",
+    "title": "拒绝不规则网格行",
+    "problem": "不同宽度的网格被默默接受或读回崩溃",
+    "change": "解析时检查非空二维矩形并指出行宽错误",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 082 -v；test_082_ragged_grid_rejected"
+  },
+  {
+    "id": "083",
+    "title": "拒绝未定义网格符号",
+    "problem": "未知符号被当成空白，作品会丢豆",
+    "change": "符号必须出现在图例中，支持BOM和常用换行",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 083 -v；test_083_unknown_grid_symbol_rejected"
+  },
+  {
+    "id": "084",
+    "title": "拒绝冲突图例",
+    "problem": "重复符号覆盖原色号，读回后颜色变化",
+    "change": "图例去冲突并核验真实色号",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 084 -v；test_084_conflicting_legend_rejected"
+  },
+  {
+    "id": "085",
+    "title": "核验网格声明尺寸",
+    "problem": "文件头写52x52但正文不匹配也能核查",
+    "change": "声明宽高必须与正文实际行列一致",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 085 -v；test_085_declared_dimensions_checked"
+  },
+  {
+    "id": "086",
+    "title": "导出前验证网格色号索引",
+    "problem": "负数或越界值导出时崩溃或错指颜色",
+    "change": "拒绝无效索引，额外角色自动分配不冲突单字符号",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 086 -v；test_086_grid_export_rejects_invalid_palette_index"
+  },
+  {
+    "id": "087",
+    "title": "统一网格色号还原",
+    "problem": "check独立手写解析器，额外色号和错误处理不一致",
+    "change": "新增load_grid并由check使用，按真实色号还原且使用32位索引",
+    "files": [
+      "pindou/build.py",
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 087 -v；test_087_grid_loader_roundtrips_bead_codes"
+  },
+  {
+    "id": "088",
+    "title": "空目录不能冒充核查通过",
+    "problem": "没有作品的目录也会生成通过报告",
+    "change": "check在没有网格文件时明确报错",
+    "files": [
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 088 -v；test_088_check_empty_directory_is_error"
+  },
+  {
+    "id": "089",
+    "title": "生成可用于Windows的文件名",
+    "problem": "CON等保留名和结尾点号导致写文件失败",
+    "change": "统一清理非法字符、保留名、结尾点和过长名称",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 089 -v；test_089_windows_reserved_filename_is_safe"
+  },
+  {
+    "id": "090",
+    "title": "错误构建参数不创建半成品",
+    "problem": "先建目录再排方案，无效数量会留下残留文件夹",
+    "change": "把方案、尺寸和编号验证前置到创建目录前",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 090 -v；test_090_invalid_build_leaves_no_output"
+  },
+  {
+    "id": "091",
+    "title": "保护已有系列免于覆盖混款",
+    "problem": "同目录重复构建覆盖同编号并遗留旧款",
+    "change": "发现已有目录或作品文件时拒绝写入，提示使用新目录",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 091 -v；test_091_existing_output_is_not_overwritten"
+  },
+  {
+    "id": "092",
+    "title": "压缩包只包含明确交付物",
+    "problem": "遍历整个输出目录会收进参考图、私有资料和临时文件",
+    "change": "build传入准确文件列表，通用打包仅收已知交付目录和文件",
+    "files": [
+      "pindou/chartkit.py",
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 092 -v；test_092_zip_excludes_private_and_unrelated_files"
+  },
+  {
+    "id": "093",
+    "title": "校验压缩包内部路径",
+    "problem": "extra文件允许../等向外路径和重复成员",
+    "change": "拒绝绝对、向外、重复路径和符号链接，排序写入",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 093 -v；test_093_zip_rejects_traversal_member_name"
+  },
+  {
+    "id": "094",
+    "title": "打包失败保留已有压缩包",
+    "problem": "直接打开目标zip会先清空旧包",
+    "change": "验证成员后写临时包，成功后一次替换目标",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 094 -v；test_094_failed_zip_preserves_previous_archive"
+  },
+  {
+    "id": "095",
+    "title": "交付文件可校验且参数可复现",
+    "problem": "缺少整套文件指纹和完整已解析配置",
+    "change": "新增manifest记录SHA256、字节数、风格快照、每款方案和导出尺寸",
+    "files": [
+      "pindou/build.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 095 -v；test_095_manifest_verifies_delivered_bytes"
+  },
+  {
+    "id": "096",
+    "title": "PNG导出创建目录并避免半文件",
+    "problem": "独立导出到新目录失败，保存中断会留下损坏PNG",
+    "change": "建立父目录、明确PNG格式、写临时文件后替换，保留元数据",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 096 -v；test_096_png_save_creates_parent_and_keeps_metadata"
+  },
+  {
+    "id": "097",
+    "title": "总览缩略图不修改调用方图片",
+    "problem": "thumbnail直接缩小外部传入图片",
+    "change": "复制图片后缩放，路径图片用上下文及时关闭",
+    "files": [
+      "pindou/chartkit.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 097 -v；test_097_contact_sheet_does_not_resize_callers_image"
+  },
+  {
+    "id": "098",
+    "title": "同色号跨角色用量正确汇总",
+    "problem": "相同真实色号计数被后一个角色覆盖",
+    "change": "Pattern和工艺统计按色号累加，图纸总量和真实豆数一致",
+    "files": [
+      "pindou/chartkit.py",
+      "pindou/beadify.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 098 -v；test_098_pattern_aggregates_same_code_across_roles"
+  },
+  {
+    "id": "099",
+    "title": "总览和造型对照图补齐来源信息",
+    "problem": "总览没有作者和时间，audit字体写死且不能新建父目录",
+    "change": "总览继承构建元数据，audit复用跨平台字体和统一PNG保存",
+    "files": [
+      "pindou/build.py",
+      "pindou/cli.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 099 -v；test_099_overview_preserves_build_metadata"
+  },
+  {
+    "id": "100",
+    "title": "新版交接包可完整安全还原",
+    "problem": "固定文件列表漏新模块测试文档，原还原脚本边读边覆盖",
+    "change": "自动收录新增源码测试文档，先验证全包SHA256和路径再写入且不覆盖现有文件",
+    "files": [
+      "scripts/pack_handoff.py",
+      "scripts/restore_handoff.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_delivery.py -k 100 -v；test_100_handoff_collects_new_modules_tests_and_docs"
+  }
+]

@@ -1,0 +1,593 @@
+{
+  "matrix_count": 42,
+  "styles": 14,
+  "formats": 3,
+  "checks": [
+    {
+      "style": "anime_cel",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 1788,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "34bdc7acc41b8b74ff0d4fd3918a436737f3d83a109ea68ef21cf26069a3a3f5"
+    },
+    {
+      "style": "anime_cel",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 3741,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "10003289b95511ef7f32053dbd8ff316959365c5cdd8f1ef2527e7ab67f6f75e"
+    },
+    {
+      "style": "anime_cel",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 2336,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "ab756167c3fb5747df3bf296bcb1bc0c96a4ba92921fb2580ffc9ff23a976568"
+    },
+    {
+      "style": "botanical",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 1512,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "ca135e4a5edbb9f670ec06d2d2e7ccafcd1e78dcc6b1c0294d5c5d91a2c8a309"
+    },
+    {
+      "style": "botanical",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 3334,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "303895c98146a6c4dc9121b15ed21cf680ec11310e4791e1619098f1ae990977"
+    },
+    {
+      "style": "botanical",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 1864,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "80ddf740bd364eb7229b5e4ba7d43b03399634987d1fc5aae43cd3847937bb45"
+    },
+    {
+      "style": "chinese_ink",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 1728,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "a63510ccee23d705bee8a5af0a26b3ff7a4b51116a482f61a2550963055223a7"
+    },
+    {
+      "style": "chinese_ink",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 3671,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "183cd991d9b7ce2874de108bd2b46a58808956ae8e005d090253ed1598f4e649"
+    },
+    {
+      "style": "chinese_ink",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 2658,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "a7681ba809bc499fbf1ec62ec01ec467c9c70fa0ece72e725f523925e53cb64f"
+    },
+    {
+      "style": "ink_tattoo",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 1706,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "f0210b3ce62ae5ba1dd1b3089074927b023f3afe81e2f179f25d75a7e606d048"
+    },
+    {
+      "style": "ink_tattoo",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 3619,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "0d861cc73304e64f05b486e7e0bcae6f93ed2545e0ca01b3d2f8f6e220c8946a"
+    },
+    {
+      "style": "ink_tattoo",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 2055,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "efbbc024c4680f3a139271ed8c7e0d8a81b66ccf28c17ec0710819ccc1b5d2d9"
+    },
+    {
+      "style": "kawaii_pastel",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 2704,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "45c0b079dbdd739aedcf37313f001dad038956c2e86b3e2dd14118739684b47d"
+    },
+    {
+      "style": "kawaii_pastel",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 6084,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "f1e6ac5186db6f15453669559062ccab2c7874b4874568bd73ae8c3d6368a03c"
+    },
+    {
+      "style": "kawaii_pastel",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 5408,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "8f60bae761ff38597b19386d88088533163f0ad34507ddbf7a66e1a7db8c8534"
+    },
+    {
+      "style": "lowpoly",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 1203,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "00776452c9b481eb3dd6c1580ce4c341b42619aff3c3b24e3e8a4360b9ef6708"
+    },
+    {
+      "style": "lowpoly",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 2573,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "25b5e67c638ef4e89a3e15d9a8c859c70ce872569993d6e6af08f3eff8128202"
+    },
+    {
+      "style": "lowpoly",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 1153,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "968910fda469a5e0f05ebd1bd0179cf4b75be821d73af8dfe95809336bb681ef"
+    },
+    {
+      "style": "mandala_gold",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 2704,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "cc2b23eb1747639cfa57c7d152f66af61ea71a7b76e40fd70125043e39865b68"
+    },
+    {
+      "style": "mandala_gold",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 6084,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "fa6f3d1987bab1f23f2fb1aa73cd5171beaa2a34b52236abfb2573e59b3c83fb"
+    },
+    {
+      "style": "mandala_gold",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 5408,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "e99932b8bbfd0ab2b371e99b0c8c701a98eddebd2e1e6c342ebbd5c69cbf84cb"
+    },
+    {
+      "style": "neon_cyber",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 2704,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "1c8dd0837256fad782796ce4b1c90172ef17167cea38626194d63c9c2817a9ab"
+    },
+    {
+      "style": "neon_cyber",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 6084,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "89c3d7ba916123e67f51b3f08c35d18b783a8990c42469eb52b27232aca9c4d7"
+    },
+    {
+      "style": "neon_cyber",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 5408,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "f973af990a97aba27c41f2e059522667d69dfed86df859398d3eab859625c8f8"
+    },
+    {
+      "style": "nordic_tribal",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 1576,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "6a6a5acf706f52bcee32a2aab21ca07c1cf19e974f88060f13dd020867cf3c5a"
+    },
+    {
+      "style": "nordic_tribal",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 2922,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "6c85677e6ac60499ec9a115201dd74b19e96b6c1a1ace402386de21607a0693f"
+    },
+    {
+      "style": "nordic_tribal",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 1897,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "bfabc7c38aed59e8c993c15a18069936642b6315f34b48e9eb6a6362ba6dca03"
+    },
+    {
+      "style": "pixel_retro",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 2704,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "e880ef34a24b9755ab77b5decc88b6c7c8e54bf04fa3d1daeccd1a40be492867"
+    },
+    {
+      "style": "pixel_retro",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 6084,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "749715059662d7f8085eab61eaa4d16ae0eb52709e66af3aa9a1159adfde382e"
+    },
+    {
+      "style": "pixel_retro",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 5408,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "140bff22612e708e7725c4d491cac046be3ebda87f88df1b91b74b059ba0a3d2"
+    },
+    {
+      "style": "pop_art",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 2423,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "ecd242cb6150efb318cfaff75fef4e94b269cffe360b05a6df25066e862a6700"
+    },
+    {
+      "style": "pop_art",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 5132,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "ceab8fa05fd9b30aee0b72267c82f27d457bf06fd3fe077858091a7839b3e9d4"
+    },
+    {
+      "style": "pop_art",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 3760,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "9ddc1809d0efbc948c62f4873c1b6b69fe912bf4fbb2c2a00750c8a1fc8e1204"
+    },
+    {
+      "style": "stained_glass",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 2704,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "bb31f386fc9ce5d886855920956ea451cc2195c4475f4e4851cbc48f4f01989c"
+    },
+    {
+      "style": "stained_glass",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 6084,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "97fb43f5cd631866361a55c63e22a28bf512daa07c4e5fb070104d5d9b84f9b2"
+    },
+    {
+      "style": "stained_glass",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 5408,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "7d06d9134bc7f2bd8a96e0c04db2ec587d05fe8e2a119a5085ab12233a6f466d"
+    },
+    {
+      "style": "sunset_warm",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 1994,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "2a76d85ab18a00c0efa2a5a32f78b89e5b6616f5926349cda9ae4a3969548f8e"
+    },
+    {
+      "style": "sunset_warm",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 4325,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "4e818f837dcced94de3fed204c02bd6472ef5292128f5fc059d3c6ce0db01bd9"
+    },
+    {
+      "style": "sunset_warm",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 3344,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "68f1688039e661ff09c6891d24f1473f57425f27bdc6585f1f4cd961e3718b4d"
+    },
+    {
+      "style": "ukiyoe",
+      "format": "S",
+      "shape": [
+        52,
+        52
+      ],
+      "beads": 1831,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "7d9acae4f21755d954c4d003c0e3b1787e0932f7f4605f1afc4812f9f039b776"
+    },
+    {
+      "style": "ukiyoe",
+      "format": "M",
+      "shape": [
+        78,
+        78
+      ],
+      "beads": 3877,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "00ba0852a767c24700d49ea947623ae03c46952e9950027a7cb6415eb406d1bc"
+    },
+    {
+      "style": "ukiyoe",
+      "format": "V",
+      "shape": [
+        104,
+        52
+      ],
+      "beads": 3040,
+      "components": 1,
+      "reproducible": true,
+      "grid_roundtrip": true,
+      "sha256": "2dcadf18bedca39aa6065ae47e607f18a91b2698da3a526e62365f6ef6c75eb0"
+    }
+  ],
+  "sample_series": [
+    {
+      "style": "ink_tattoo",
+      "directory": "墨纹示例4款",
+      "count": 4,
+      "numerical_check": true,
+      "scope": "pair_only",
+      "pair": {
+        "a": "PO001",
+        "b": "PO002",
+        "ncc": 0.717
+      }
+    },
+    {
+      "style": "kawaii_pastel",
+      "directory": "萌系示例4款",
+      "count": 4,
+      "numerical_check": true,
+      "scope": "pair_only",
+      "pair": {
+        "a": "PO001",
+        "b": "PO002",
+        "ncc": 0.498
+      }
+    },
+    {
+      "style": "sunset_warm",
+      "directory": "风景示例4款",
+      "count": 4,
+      "numerical_check": true,
+      "scope": "pair_only",
+      "pair": {
+        "a": "PO001",
+        "b": "PO004",
+        "ncc": 0.755
+      }
+    }
+  ],
+  "elapsed_seconds": 17.33,
+  "manual_acceptance": "待用户查看演示图和实际拼豆体验；自动检查不等于人工验收"
+}

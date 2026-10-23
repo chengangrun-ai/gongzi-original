@@ -1,0 +1,84 @@
+{
+  "id": "botanical",
+  "name": "植物线描",
+  "desc": "米底、绿色线描、叶脉与蕨类，清新自然",
+  "tags": [
+    "植物",
+    "线描",
+    "清新",
+    "绿",
+    "自然"
+  ],
+  "palette": {
+    "white": "#FDFBFF",
+    "light": "#C2F0CC",
+    "mid": "#ADE946",
+    "dark": "#1C9C4F",
+    "line": "#166F41",
+    "accent": "#F551A2"
+  },
+  "color_set": "mard72",
+  "bg": "paper",
+  "line_width": 1.25,
+  "fill": "light",
+  "detail": "line",
+  "shade1": "mid",
+  "shade2": "dark",
+  "fill_texture": "hatch",
+  "face_texture": "hatch",
+  "texture_pool": [
+    "hatch",
+    "solid",
+    "dots"
+  ],
+  "formats": {
+    "S": 0.3,
+    "M": 0.2,
+    "V": 0.5
+  },
+  "templates": [
+    "wreath",
+    "arch",
+    "frame",
+    "fullbleed",
+    "banner",
+    "corner",
+    "badge",
+    "split",
+    "emblem"
+  ],
+  "subjects": [
+    "leaf",
+    "fern",
+    "flower",
+    "rose",
+    "lotus",
+    "mushroom",
+    "cactus",
+    "tree",
+    "wreath",
+    "butterfly",
+    "bee",
+    "bird",
+    "sakura",
+    "bamboo"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.04
+  },
+  "accent_rate": 0.6,
+  "splatter": 0,
+  "sat_target": 0.4,
+  "contrast_target": 0.5,
+  "edge_target": 0.18,
+  "ink_target": 0.18,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  },
+  "ground": "dark"
+}

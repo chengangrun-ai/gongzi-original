@@ -1,0 +1,89 @@
+{
+  "id": "ukiyoe",
+  "name": "和风",
+  "desc": "米纸底、靛蓝与朱红，青海波与浪纹",
+  "tags": [
+    "和风",
+    "浮世绘",
+    "靛蓝",
+    "朱红",
+    "波浪"
+  ],
+  "palette": {
+    "white": "#FDFBFF",
+    "light": "#CDE8FF",
+    "mid": "#3677D2",
+    "dark": "#2F54AF",
+    "line": "#2F1F90",
+    "accent": "#F35744"
+  },
+  "color_set": "mard72",
+  "bg": "paper",
+  "line_width": 1.3,
+  "fill": "light",
+  "detail": "line",
+  "shade1": "mid",
+  "shade2": "dark",
+  "fill_texture": "seigaiha",
+  "face_texture": "solid",
+  "texture_pool": [
+    "seigaiha",
+    "waves",
+    "solid",
+    "dots"
+  ],
+  "formats": {
+    "S": 0.35,
+    "M": 0.25,
+    "V": 0.4
+  },
+  "templates": [
+    "horizon",
+    "arch",
+    "frame",
+    "poster",
+    "fullbleed",
+    "badge",
+    "scene",
+    "emblem"
+  ],
+  "subjects": [
+    "wave_icon",
+    "koi",
+    "fish",
+    "mountain",
+    "moon",
+    "lotus",
+    "bird",
+    "deer",
+    "turtle",
+    "jellyfish",
+    "sun",
+    "cloud",
+    "gate",
+    "bridge",
+    "bamboo",
+    "sakura",
+    "koi_pair",
+    "moon_phase",
+    "fence"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.04
+  },
+  "accent_rate": 0.5,
+  "splatter": 0,
+  "sat_target": 0.4,
+  "contrast_target": 0.55,
+  "edge_target": 0.15,
+  "ink_target": 0.2,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  },
+  "ground": "dark"
+}

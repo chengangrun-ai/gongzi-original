@@ -1,0 +1,277 @@
+[
+  {
+    "id": "026",
+    "title": "拒绝零尺寸或缩放后没有格子的画布",
+    "problem": "零宽高、零缩放和过小尺寸能进入绘制，产生空网格或后续异常。",
+    "change": "构造画布时核查有限正数，并确认缩放后至少一行一列。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_026_canvas_rejects_unusable_dimensions -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "027",
+    "title": "负线宽与负半径不再画出一颗豆",
+    "problem": "负线宽会进入单颗线分支，负半径也会直接落豆，错误参数生成了可见成品。",
+    "change": "记录图形前校验线宽、半径和线帽；零宽或零半径跳过绘制。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_027_invalid_stroke_and_dot_sizes_are_rejected -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "028",
+    "title": "统一拦截非法采样数",
+    "problem": "零采样会输出全空图、触发除零或空切片警告。",
+    "change": "网格、遮罩和原画入口统一要求正整数采样数；原画格像素也提前核查。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_028_sampling_parameters_are_positive_integers -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "029",
+    "title": "单颗落格不侵占右邻和下邻",
+    "problem": "单颗绘制右下边界多加一像素，S=1时一颗豆变成四颗；画布外负坐标还可能渗入边缘。",
+    "change": "落格使用左闭右开的精确格边界，并在绘制前忽略画布外格子。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_029_snapped_cells_use_half_open_bounds -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "030",
+    "title": "直接点名的格子出现在高清原画里",
+    "problem": "pixels生成了网格中的豆，高清原画重放时却跳过整个pixel类型。",
+    "change": "原画分支按网格格心绘制小圆点，正确处理缩放、裁剪和越界格。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_030_explicit_pixels_appear_in_original_art -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "031",
+    "title": "同一画布重复渲染保持点刺和渐变一致",
+    "problem": "每次grid都会再次消耗随机数，重新导出会改变单颗豆位置。",
+    "change": "内置随机效果首次渲染保存随机顺序和噪声，后续原样重放；首次随机序列保持原有语义。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_031_random_effects_replay_identically -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "032",
+    "title": "后续修改输入数组不再偷偷改作品",
+    "problem": "点刺和渐变闭包保留调用者的遮罩、密度或亮度数组引用，外部修改会改变待导出的图。",
+    "change": "登记效果时复制遮罩和广播后的场，并固定颜色层列表。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_032_effect_inputs_are_snapshots -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "033",
+    "title": "点刺与渐变错误在登记时明确报出",
+    "problem": "错误遮罩尺寸、超范围密度、空颜色层和NaN直到出图时才崩溃，或静默当作有效效果。",
+    "change": "效果入口检查完整网格形状、0到1的有限数值、非空颜色层和非负抖动强度。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_033_effect_inputs_fail_before_render -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "034",
+    "title": "密度场不再掩盖无定义的方向或半径",
+    "problem": "线性轴两点重合和径向外半径小于内半径被极小分母吞掉，输出无意义的密度。",
+    "change": "密度辅助函数验证端点、半径先后关系、密度范围和正gamma，去掉掩盖错误的分母钳制。",
+    "files": [
+      "pindou/canvas.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_034_density_fields_reject_undefined_axes -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "035",
+    "title": "坏坐标不再被悄悄重排成图形",
+    "problem": "一行四列被reshape当成两个点，NaN和无穷坐标继续流入Pillow。",
+    "change": "点集入口检查每行坐标对和有限数值，保留合法空点集的二维形状。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_035_points_reject_nonfinite_and_malformed_rows -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "036",
+    "title": "折线重采样保住原始拐角",
+    "problem": "按整条线等距采样可能跨过折点，后续连线把直角截成斜边。",
+    "change": "逐段重采样并保留每个原始端点，确保采样间距不超过指定步长。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_036_resampling_keeps_corners -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "037",
+    "title": "负几何采样间距不再静默降成粗线",
+    "problem": "折线、样条、圆弧和螺旋遇到负间距会返回极少点，用户图形悄悄失真。",
+    "change": "四类采样入口统一要求有限正间距，并检查样条alpha与圆弧/螺旋半径。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_037_geometry_rejects_negative_sampling_steps -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "038",
+    "title": "闭合样条真正回到起点",
+    "problem": "闭合样条采完最后一段后附加了最后控制点，造成末尾折返而非闭合。",
+    "change": "闭合样条末端改用首控制点，消除额外折返。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_038_closed_spline_finishes_at_start -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "039",
+    "title": "渐变线宽按实际距离变化",
+    "problem": "文档承诺按弧长插值，但实现按点序号分配宽度；控制点密集处会异常增粗。",
+    "change": "宽度曲线和函数的u改为累计路程比例，仍保留逐点明确给宽度的语义。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_039_widths_follow_distance_not_vertex_number -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "040",
+    "title": "重复点与单点不再破坏法线",
+    "problem": "单点触发numpy梯度异常；连续重复点产生零法线，使粗线和身体局部塌陷。",
+    "change": "单点返回零切向量，重复点先合并计算再映射回原位置。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_040_normals_handle_single_and_repeated_vertices -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "041",
+    "title": "单点和重复点凸包保持有效形状",
+    "problem": "单个唯一点的凸包被删除或重复返回；空凸包变成一维数组。",
+    "change": "先去除重复坐标，小于等于两个唯一点直接返回，保持(N,2)形状；同时移除二维cross弃用警告。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_041_hull_preserves_single_unique_point -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "042",
+    "title": "沿脊线身体的采样数参数生效",
+    "problem": "body_along的n无论给多少都被忽略，无法控制轮廓点数和资源消耗。",
+    "change": "指定n时按累计长度精确插值n个脊线点，并校验n至少为2。",
+    "files": [
+      "pindou/geom.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_042_body_sampling_count_is_honored -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "043",
+    "title": "整数遮罩正确填洞且支持空遮罩",
+    "problem": "对uint8的0/1遮罩直接按位取反，把整个背景都变成非零，洞不能填；空遮罩越界。",
+    "change": "先核查并转换布尔遮罩；空遮罩直接返回；按标签查表一次性填符合面积限制的洞。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_043_hole_filling_accepts_binary_integer_masks -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "044",
+    "title": "工艺坏参数不再意外铺满画布或擦掉作品",
+    "problem": "SciPy把负迭代数当作反复运算；负面积、NaN距离和纸色托底也被接受。",
+    "change": "整理入口明确检查非负迭代次数、面积和桥距，并要求有效非零托底色。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_044_finalize_rejects_destructive_parameters -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "045",
+    "title": "相邻碎片可通过接力桥完整保留",
+    "problem": "原实现只量到原始主体的距离，远处碎片即使能经邻近碎片相连也会被提前删除。",
+    "change": "每接最近的合格块就重新计算主体与距离，直到无可桥接块；移除任意40轮上限。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_045_bridge_can_keep_a_chain_of_nearby_islands -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "046",
+    "title": "空作品显示零工时和零用板",
+    "problem": "全空网格仍显示一块底板、入门两星和1到2小时，误导备料和工时估计。",
+    "change": "空作品的用板、星数和时间归零，明确标记空作品等级。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_046_empty_pattern_has_no_work_estimate -v；红：原版空52×52网格boards实际1、期望0，测试失败；绿：同一断言及本组28测试通过。"
+  },
+  {
+    "id": "047",
+    "title": "网格预览查表提速",
+    "problem": "原预览每个色号都展开一张完整大遮罩并扫描全部像素，色数越多越慢，还重复分配大数组。",
+    "change": "先将每格颜色索引一次查成RGB，再沿两个方向放大，保留网格线逐像素结果；同色孤立豆统计同时用相邻数组比较替代逐颗Python循环。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_047_preview_is_pixel_identical_with_less_work -v；同一156×156网格、B=8、7角色，五次均值：旧预览0.085944秒，新预览0.011896秒，7.22倍；singles旧0.060620秒，新0.000060秒；两者与原版逐像素/数值一致。红：回退旧预览路径后，相对性能测试实测0.063498秒未低于旧参考0.063280秒的70%，测试失败；恢复查表后通过。"
+  },
+  {
+    "id": "048",
+    "title": "难度系数不能产生反向评分或除零",
+    "problem": "负分母会让大作品更简单，零分母直接崩溃，NaN和无穷系数也会进入评分。",
+    "change": "难度入口要求分母有限正值、加分系数有限非负值。",
+    "files": [
+      "pindou/beadify.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_048_difficulty_parameters_cannot_invert_rating -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "049",
+    "title": "渐变真正覆盖图形并随缩放保持位置",
+    "problem": "默认渐变以画布原点的一格半径计算，大部分图形全变暗；lo/hi无效，注册纹理还混用网格与设计坐标。",
+    "change": "默认亮度按图形包围盒计算并应用lo/hi；渐变场统一换回设计坐标，修复放大后渐变偏移。",
+    "files": [
+      "pindou/brushes.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_049_default_gradient_spans_the_shape_at_any_zoom -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  },
+  {
+    "id": "050",
+    "title": "纹样零间距不再让程序卡死",
+    "problem": "点阵、棋盘、鳞片等while循环在零或负周期时永不前进；负排线间距静默漏画。",
+    "change": "排线、点阵、鱼鳞、青海波、波浪、棋盘和半调统一要求有限正周期。",
+    "files": [
+      "pindou/brushes.py",
+      "tests/test_render_craft.py"
+    ],
+    "validation": "python -m unittest discover -s tests -p test_render_craft.py -k test_050_brush_spacing_fails_instead_of_looping -v；红：首次原实现执行本组25测试，45个断言失败及5个原行为异常，本项回归失败；绿：修复后本组28测试通过。"
+  }
+]

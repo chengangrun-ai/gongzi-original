@@ -1,0 +1,80 @@
+{
+  "id": "mandala_gold",
+  "name": "曼陀罗金",
+  "desc": "深紫底、金米色，层层圆章与放射花纹",
+  "tags": [
+    "曼陀罗",
+    "对称",
+    "金",
+    "繁复",
+    "装饰"
+  ],
+  "palette": {
+    "bg": "#2F1F90",
+    "white": "#FEFFFF",
+    "light": "#FFE2CE",
+    "mid": "#FFC365",
+    "dark": "#9A009B",
+    "line": "#9A009B",
+    "accent": "#FBED56"
+  },
+  "color_set": "mard72",
+  "bg": "fill",
+  "line_width": 1.3,
+  "fill": "mid",
+  "detail": "line",
+  "shade1": "dark",
+  "shade2": "line",
+  "fill_texture": "solid",
+  "face_texture": "solid",
+  "texture_pool": [
+    "solid",
+    "dots",
+    "contour"
+  ],
+  "formats": {
+    "S": 0.6,
+    "M": 0.3,
+    "V": 0.1
+  },
+  "templates": [
+    "medallion",
+    "radial",
+    "window",
+    "badge",
+    "tile",
+    "wreath",
+    "emblem"
+  ],
+  "subjects": [
+    "mandala",
+    "lotus",
+    "flower",
+    "sun",
+    "compass",
+    "eye",
+    "star",
+    "moon",
+    "triquetra",
+    "spiral",
+    "moon_phase",
+    "sakura"
+  ],
+  "accent_policy": {
+    "focus": 1,
+    "max_area": 0.05
+  },
+  "accent_rate": 0.9,
+  "splatter": 0,
+  "sat_target": 0.5,
+  "contrast_target": 0.65,
+  "edge_target": 0.28,
+  "ink_target": 0.35,
+  "difficulty": {
+    "bead_div": 1100,
+    "single_div": 220,
+    "color_coef": 0.35,
+    "board_coef": 0.25,
+    "star_div": 1.35
+  }
+}
