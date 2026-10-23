@@ -48,18 +48,18 @@ pip install -r ~/.claude/skills/gongzi-original/requirements.txt
 ## Usage
 
 ```bash
-### 看有什么
+# 看有什么
 python scripts/pindou.py styles      # 15 个风格包
 python scripts/pindou.py motifs      # 85 造型 / 18 构图 / 15 纹理
 
-### 参考图 → 自动风格包 → 整套图纸（一步到位）
+# 参考图 → 自动风格包 → 整套图纸（一步到位）
 python scripts/pindou.py auto <参考图目录> --n 12 --out out/新系列 \
     --name "深海幻光" --subjects jellyfish,lotus,moon --refs <参考图目录>
 
-### 用现成风格
+# 用现成风格
 python scripts/pindou.py build --style kawaii_pastel --n 24 --out out/萌系 --prefix KW
 
-### 只做原创性核查
+# 只做原创性核查
 python scripts/pindou.py check out/新系列 --refs <参考图目录>
 ```
 
